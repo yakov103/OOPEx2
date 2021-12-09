@@ -74,6 +74,9 @@ public class Ex2 {
 //        });
         System.out.println(algo.center().getKey());
         GraphicsController controller = new GraphicsController(g);
+        algo.save("danielFile.json");
+        algo.load("C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G3.json");
+        algo.save("danielFile.json");
     }
 
 }
