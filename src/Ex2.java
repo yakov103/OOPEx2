@@ -77,5 +77,5 @@ public class Ex2 {
         System.out.println(algo.center().getKey());
         GraphicsController controller = new GraphicsController(g);
     }
-    }
+
 }
