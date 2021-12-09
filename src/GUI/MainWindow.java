@@ -34,7 +34,7 @@ public class MainWindow extends JFrame implements ActionListener {
     JMenuBar mb ;
 
 
-    JMenu menu;
+    JMenu algorithem_menu;
     JMenuItem check_if_connected;
     JMenuItem find_shortest_path;
     JMenuItem shortest_path;
@@ -61,7 +61,7 @@ public class MainWindow extends JFrame implements ActionListener {
         ImageIcon icon = new ImageIcon("node.png");
         setIconImage(icon.getImage());
         mb = new JMenuBar();
-        menu = new JMenu("Main");
+        algorithem_menu = new JMenu("Algorithms");
         exit = new JMenuItem("Exit");
         check_if_connected=new JMenuItem("check if connected");
         find_shortest_path=new JMenuItem("find shortest path");
@@ -69,13 +69,13 @@ public class MainWindow extends JFrame implements ActionListener {
         center_node=new JMenuItem("find center");
         tsp =new JMenuItem("tsp");
 
-        menu.add(check_if_connected);
-        menu.add(find_shortest_path);
-        menu.add(shortest_path);
-        menu.add(center_node);
-        menu.add(tsp );
-        menu.add(exit);
-        mb.add(menu);
+        algorithem_menu.add(check_if_connected);
+        algorithem_menu.add(find_shortest_path);
+        algorithem_menu.add(shortest_path);
+        algorithem_menu.add(center_node);
+        algorithem_menu.add(tsp );
+        algorithem_menu.add(exit);
+        mb.add(algorithem_menu);
         exit.addActionListener(this);
         check_if_connected.addActionListener(this);
         find_shortest_path.addActionListener(this);
