@@ -42,11 +42,8 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
-        DirectedWeightedGraphAlgorithms ans = null;
-        // ****** Add your code here ******
-        //
-        // ********************************
-        return ans;
+        DirectedWeightedGraphAlgorithms algorithms=new graphAlgo((DirectedGraph) getGrapg(json_file));
+       return algorithms;
     }
     /**
      * This static function will run your GUI using the json fime.
@@ -61,7 +58,7 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
+    String json_file= args[0];
 
      //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
         DirectedWeightedGraph g = getGrapg(json_file);
@@ -74,9 +71,9 @@ public class Ex2 {
 //        });
         System.out.println(algo.center().getKey());
         GraphicsController controller = new GraphicsController(g);
-        algo.save("danielFile.json");
+        algo.save("libs/danielFile.json");
         algo.load("C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G3.json");
-        algo.save("danielFile.json");
+        algo.save("libs/danielFile.json");
     }
 
 }

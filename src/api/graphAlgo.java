@@ -13,6 +13,13 @@ import java.util.List;
 public class graphAlgo implements DirectedWeightedGraphAlgorithms{
     DirectedGraph graph ;
 
+    public graphAlgo(){
+    }
+
+    public graphAlgo(DirectedGraph graph){
+        this.graph=graph;
+    }
+
 
     @Override
     public void init(DirectedWeightedGraph g) {
