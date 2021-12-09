@@ -58,9 +58,9 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    String json_file= args[0];
-
-     //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
+    //String json_file= args[0];                           //for the jar
+        String json_file="C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
+                //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
         DirectedWeightedGraph g = getGrapg(json_file);
         graphAlgo algo = new graphAlgo();
         algo.init(g);
@@ -71,9 +71,9 @@ public class Ex2 {
 //        });
         System.out.println(algo.center().getKey());
         GraphicsController controller = new GraphicsController(g);
-        algo.save("libs/danielFile.json");
+        algo.save("danielFile.json");
         algo.load("C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G3.json");
-        algo.save("libs/danielFile.json");
+        algo.save("danielFile.json");
     }
 
 }
