@@ -14,12 +14,14 @@ public class MainWindow extends JFrame implements ActionListener {
     private static final int ARROW_SIZE = 7;
 
     JPanel panel;
+    JFrame popUP;
     AffineTransform tx = new AffineTransform();
     Line2D.Double line = new Line2D.Double(0,0,100,100);
     Polygon arrowHead = new Polygon();
     HashMap<String, Edge> edgeMap = new HashMap<>();
     ArrayList<NodeV> nodes;
     DirectedWeightedGraph graph;
+    DirectedWeightedGraphAlgorithms algoGraph;
     private double scaleX = 0;
     private double scaleY = 0;
     private double maxX = Integer.MIN_VALUE;
@@ -29,14 +31,20 @@ public class MainWindow extends JFrame implements ActionListener {
     private int incrementY = 100;
     private int incrementX = 100;
 
+    JMenuBar mb ;
+
 
     JMenu menu;
-    JMenuBar mb ;
+    JMenuItem check_if_connected;
+    JMenuItem find_shortest_path;
+    JMenuItem shortest_path;
+    JMenuItem center_node;
+    JMenuItem tsp ;
     JMenuItem exit;
 
-    MainWindow(int width, int height, DirectedWeightedGraph g){
-
-        this.graph= g;
+    MainWindow(int width, int height, DirectedWeightedGraphAlgorithms g){
+        this.algoGraph = g;
+        this.graph= g.getGraph();
 
         panel = new JPanel();
 //        getContentPane().add(panel);
@@ -52,15 +60,33 @@ public class MainWindow extends JFrame implements ActionListener {
         });
         ImageIcon icon = new ImageIcon("node.png");
         setIconImage(icon.getImage());
-        drawGraph();
         mb = new JMenuBar();
-        menu = new JMenu("Menu Main");
+        menu = new JMenu("Main");
         exit = new JMenuItem("Exit");
+        check_if_connected=new JMenuItem("check if connected");
+        find_shortest_path=new JMenuItem("find shortest path");
+        shortest_path=new JMenuItem("shortest path");
+        center_node=new JMenuItem("find center");
+        tsp =new JMenuItem("tsp");
+
+        menu.add(check_if_connected);
+        menu.add(find_shortest_path);
+        menu.add(shortest_path);
+        menu.add(center_node);
+        menu.add(tsp );
         menu.add(exit);
         mb.add(menu);
         exit.addActionListener(this);
+        check_if_connected.addActionListener(this);
+        find_shortest_path.addActionListener(this);
+        shortest_path.addActionListener(this);
+        center_node.addActionListener(this);
+        tsp .addActionListener(this);
+        exit.addActionListener(this);
         this.setJMenuBar(mb);
 
+
+        drawGraph();
 
         setLayout(null);
         setVisible(true);
@@ -74,7 +100,7 @@ public class MainWindow extends JFrame implements ActionListener {
         double factorX = getWidth() / scaleX * 0.8;
         double factorY = getHeight() / scaleY * 0.8;
 
-        Color color = Color.BLACK;
+        Color color = Color.RED;
         g2.setColor(color);
         for (NodeV p : nodes) {
             double x = (p.getLocation().x()-minX) * factorX + incrementX;
@@ -84,7 +110,7 @@ public class MainWindow extends JFrame implements ActionListener {
             g2.draw(ellipse);
         }
 
-//        color = Color.blue;
+        color = Color.blue;
         g2.setColor(color);
         Iterator iter = graph.edgeIter();
         while (iter.hasNext()) {
@@ -148,11 +174,46 @@ public class MainWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
         if (e.getSource() == this.exit){
             System.exit(0);
         }
+        else if (e.getSource() == this.check_if_connected){
+        boolean flag= algoGraph.isConnected();
+        if (flag) {
+            this.infoBox("the graph is conncted ! ", "isConnceted", flag);
+        }
+        else {
+            this.infoBox("the graph is not connected !", "isConnceted", flag);
+        }
 
+
+        }
+        else if (e.getSource() == this.find_shortest_path){
+
+        }
+        else if (e.getSource() == this.shortest_path){
+
+        }
+        else if (e.getSource() == this.center_node){
+
+        }
+        else if (e.getSource() == this.tsp ){
+
+        }
+
+
+
+    }
+
+    public void infoBox(String infoMessage, String titleBar, boolean flag)
+    {
+
+        this.popUP = new JFrame();
+        if ( flag == true){
+            JOptionPane.showMessageDialog(popUP,infoMessage,titleBar, 1);
+        }
+        else {
+            JOptionPane.showMessageDialog(popUP,infoMessage,titleBar, 0);
+        }
     }
 }

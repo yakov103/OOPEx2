@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.MainWindow;
 import api.DirectedWeightedGraph;
+import api.DirectedWeightedGraphAlgorithms;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +10,9 @@ import java.awt.*;
 public class GraphicsController {
 
     MainWindow frame;
-    DirectedWeightedGraph directedGraph;
+    DirectedWeightedGraphAlgorithms directedGraph;
 
-    public GraphicsController(DirectedWeightedGraph directedGraph){
+    public GraphicsController(DirectedWeightedGraphAlgorithms directedGraph){
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dimension.height;
         int width = dimension.width;

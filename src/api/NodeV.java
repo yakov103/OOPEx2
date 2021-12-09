@@ -6,7 +6,6 @@ public class NodeV implements NodeData {
     public String pos;
     public int id;
     public String info;
-    public int rank;
     public NodeV previous;
     public double length;
 
@@ -15,13 +14,11 @@ public class NodeV implements NodeData {
         this.id= id ;
         this.pos = postion;
         this.info = "white";
-        this.rank = 0;
     }
     public NodeV(NodeV n){
         this.pos=n.pos;
         this.id=n.id;
         this.info=n.info;
-        this.rank=n.rank;
     }
 
     @Override
@@ -30,7 +27,6 @@ public class NodeV implements NodeData {
                 "pos='" + pos + '\'' +
                 ", id=" + id +
                 ", info='" + info + '\'' +
-                ", rank=" + rank +
                 ", previous=" + previous +
                 ", length=" + length +
                 '}';
@@ -81,8 +77,4 @@ public class NodeV implements NodeData {
 
     }
 
-    public void addRank ()
-    {
-        this.rank++;
-    }
 }

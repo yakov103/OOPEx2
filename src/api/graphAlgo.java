@@ -1,11 +1,24 @@
 package api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
 public class graphAlgo implements DirectedWeightedGraphAlgorithms{
     DirectedGraph graph ;
+
+    public graphAlgo(){
+    }
+
+    public graphAlgo(DirectedGraph graph){
+        this.graph=graph;
+    }
 
 
     @Override
@@ -190,12 +203,49 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean save(String file) {
-        return false;
+
+        DirectedGraph.setGraphColor(null,graph);
+        DirectedGraph.setprevious(graph);
+
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        String jsonString=json.toJson(graph);
+
+        PrintWriter writer= null;
+        try {
+            writer = new PrintWriter(file);
+            writer.write(jsonString);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+        return true;
     }
 
     @Override
     public boolean load(String file) {
-        return false;
+        String JsonString="";
+        try {
+            File f = new File(file);
+            Scanner myReader = new Scanner(f);
+            while (myReader.hasNextLine()) {
+                JsonString += myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        DirectedWeightedGraph ans=null;
+        String JsonS=JsonString;
+        Gson json =new Gson();
+        ans= json.fromJson(JsonString,DirectedGraph.class);
+        ans=new DirectedGraph((DirectedGraph) ans);
+        this.graph=(DirectedGraph) ans;
+        return true;
     }
     public static void BFS(DirectedGraph graph,String color) {
         Stack<NodeData> S = new Stack();

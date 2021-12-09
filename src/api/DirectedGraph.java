@@ -25,7 +25,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
         this.IEdgesEdge = new ArrayList<>();
         for (int i = 0; i < G.Nodes.length; i++) {         //move the nodes,edges to the hashmap
             Nodes[i].setInfo("white");
-            Nodes[i].rank = 0;
             this.nodeList.add(G.Nodes[i].id);
             this.addNode(Nodes[i]);
         }
@@ -42,7 +41,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
             Edge newEdge = new Edge(src, dest, w);
             String key = src + "_" + dest;
             EdgesHash.put(key, newEdge);
-            ((NodeV) NodesHash.get(src)).addRank();
             IEdges.get(src).add((NodeV) this.getNode(dest));
             IEdgesEdge.get(src).add(newEdge);
         }
@@ -92,7 +90,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
             Edge newEdge = new Edge(src, dest, w);
             String key = src + "_" + dest;
             EdgesHash.put(key, newEdge);
-            ((NodeV) NodesHash.get(src)).addRank();
             IEdges.get(src).add((NodeV) this.getNode(dest));
             IEdgesEdge.get(src).add(newEdge);
 
@@ -285,6 +282,14 @@ public class DirectedGraph implements DirectedWeightedGraph {
         while (iterator.hasNext()) {
             NodeV nodeV = (NodeV) iterator.next();
             nodeV.setInfo(color);
+        }
+    }
+
+    public static void setprevious(DirectedGraph graph){
+        Iterator iterator=graph.nodeIter();
+        while(iterator.hasNext()){
+            NodeV nodeV=(NodeV) iterator.next();
+            nodeV.previous=null;
         }
     }
 
