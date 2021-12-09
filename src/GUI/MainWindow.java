@@ -5,9 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class MainWindow extends JFrame implements ActionListener {
@@ -15,6 +18,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
     JPanel panel;
     JFrame popUP;
+    popMSG newPOP;
     AffineTransform tx = new AffineTransform();
     Line2D.Double line = new Line2D.Double(0,0,100,100);
     Polygon arrowHead = new Polygon();
@@ -42,10 +46,14 @@ public class MainWindow extends JFrame implements ActionListener {
     JMenuItem tsp ;
     JMenuItem exit;
 
+    Boolean is_shortest_path;
+    List<NodeData> listOfShort;
+    List <Integer> index_of_shortest;
+
     MainWindow(int width, int height, DirectedWeightedGraphAlgorithms g){
         this.algoGraph = g;
         this.graph= g.getGraph();
-
+        this.index_of_shortest = new ArrayList<>();
         panel = new JPanel();
 //        getContentPane().add(panel);
         nodes = new ArrayList();
@@ -71,7 +79,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
         algorithem_menu.add(check_if_connected);
         algorithem_menu.add(find_shortest_path);
-        algorithem_menu.add(shortest_path);
         algorithem_menu.add(center_node);
         algorithem_menu.add(tsp );
         algorithem_menu.add(exit);
@@ -79,7 +86,6 @@ public class MainWindow extends JFrame implements ActionListener {
         exit.addActionListener(this);
         check_if_connected.addActionListener(this);
         find_shortest_path.addActionListener(this);
-        shortest_path.addActionListener(this);
         center_node.addActionListener(this);
         tsp .addActionListener(this);
         exit.addActionListener(this);
@@ -100,17 +106,8 @@ public class MainWindow extends JFrame implements ActionListener {
         double factorX = getWidth() / scaleX * 0.8;
         double factorY = getHeight() / scaleY * 0.8;
 
-        Color color = Color.RED;
-        g2.setColor(color);
-        for (NodeV p : nodes) {
-            double x = (p.getLocation().x()-minX) * factorX + incrementX;
-            double y = (p.getLocation().y()-minY) * factorY + incrementY;
-            Ellipse2D.Double ellipse = new Ellipse2D.Double(x - 3, y - 3, 6, 6);
-            g2.fill(ellipse);
-            g2.draw(ellipse);
-        }
+        Color color = Color.BLUE;
 
-        color = Color.blue;
         g2.setColor(color);
         Iterator iter = graph.edgeIter();
         while (iter.hasNext()) {
@@ -118,12 +115,37 @@ public class MainWindow extends JFrame implements ActionListener {
             String key = edge.getKey();
             NodeData srcNode = graph.getNode(edge.getSrc());
             NodeData destNode = graph.getNode(edge.getDest());
+            if (index_of_shortest.contains(srcNode.getKey()) && index_of_shortest.contains(destNode.getKey())){
+                g2.setColor(Color.red);
+            } else {
+                g2.setColor(Color.blue);
+            }
             double x1 =incrementX +(srcNode.getLocation().x()-minX)*factorX;
             double y1 =incrementY+ (srcNode.getLocation().y()-minY)*factorY;
             double x2 = incrementX+ (destNode.getLocation().x()-minX)*factorX ;
             double y2 = incrementY+ (destNode.getLocation().y()-minY)*factorY ;
             drawArrow(g, (int)x1, (int)y1, (int)x2, (int)y2);
         }
+
+
+
+            for (NodeV p : nodes) {
+
+                double x = (p.getLocation().x() - minX) * factorX + incrementX;
+                double y = (p.getLocation().y() - minY) * factorY + incrementY;
+                Ellipse2D.Double ellipse = new Ellipse2D.Double(x-10 , y-10 ,15, 15);
+                color = Color.BLACK;
+                if (index_of_shortest.contains(p.getKey())){
+                    color = Color.red;
+                }
+
+                g2.setColor(color);
+                g2.fill(ellipse);
+                g2.draw(ellipse);
+            }
+
+
+
 
     }
 
@@ -152,6 +174,7 @@ public class MainWindow extends JFrame implements ActionListener {
         }
         scaleX = Math.abs(maxX-minX);
         scaleY = Math.abs(maxY-minY);
+        repaint();
     }
 
 
@@ -167,9 +190,11 @@ public class MainWindow extends JFrame implements ActionListener {
 
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
+        g.setColor(Color.MAGENTA);
         g.fillPolygon(new int[] {len, len- ARROW_SIZE, len- ARROW_SIZE, len},
                 new int[] {0, -ARROW_SIZE, ARROW_SIZE, 0}, 4);
     }
+
 
 
     @Override
@@ -189,13 +214,11 @@ public class MainWindow extends JFrame implements ActionListener {
 
         }
         else if (e.getSource() == this.find_shortest_path){
-
+             showInputDialog();
         }
-        else if (e.getSource() == this.shortest_path){
 
-        }
         else if (e.getSource() == this.center_node){
-
+         NodeData centerNode=  algoGraph.center();
         }
         else if (e.getSource() == this.tsp ){
 
@@ -214,6 +237,53 @@ public class MainWindow extends JFrame implements ActionListener {
         }
         else {
             JOptionPane.showMessageDialog(popUP,infoMessage,titleBar, 0);
+        }
+
+    }
+
+    public void infoBoxWithValue (String infoMessage, int case_num) {
+    showInputDialog();
+//        try {
+//
+//            Runnable runnable = new popMSG(algoGraph);
+//            synchronized (runnable) {
+//                Thread thread = new Thread(runnable);
+//                thread.start();
+//                thread.wait();
+//                index_of_shortest = ((popMSG) runnable).getList();
+//                repaint();
+//                return;
+//            }
+//        } catch (Exception e){
+//
+//        }
+//      newPOP = new popMSG(this.algoGraph);
+//        while(newPOP.isActive()) try { Thread.sleep(1000); } catch (Exception e) {}
+
+    }
+    private void showInputDialog() {
+        JTextField xField = new JTextField(5);
+        JTextField yField = new JTextField(5);
+
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("source:"));
+        myPanel.add(xField);
+        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+        myPanel.add(new JLabel("destination:"));
+        myPanel.add(yField);
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            int src = Integer.parseInt(xField.getText()) ;
+            int dest = Integer.parseInt(yField.getText());
+
+            double distance = algoGraph.shortestPathDist(src,dest);
+            JOptionPane.showMessageDialog(this,"The distance is " + distance);
+            List<NodeData> nodes = algoGraph.shortestPath(src,dest);
+            index_of_shortest = nodes.stream().map(x -> x.getKey()).collect(Collectors.toList());
+            repaint();
         }
     }
 }

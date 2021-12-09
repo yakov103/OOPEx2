@@ -67,7 +67,7 @@ public class Ex2 {
       //  boolean  flag= algo.isConnected();
         System.out.println(algo.isConnected());
         System.out.println(algo.center());
-            System.out.println((algo.shortestPathDist(8,60)));
+            System.out.println((algo.shortestPathDist(8,10)));
         algo.shortestPath(1,12).forEach((a)->{
             System.out.println( a.getKey());
         });
