@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class MainWindow extends JFrame implements MouseListener {
+
+public class MainWindow extends JFrame implements ActionListener {
     private static final int ARROW_SIZE = 7;
 
     JPanel panel;
@@ -28,8 +29,12 @@ public class MainWindow extends JFrame implements MouseListener {
     private int incrementY = 100;
     private int incrementX = 100;
 
+
+    JMenu menu;
+    JMenuBar mb ;
+    JMenuItem exit;
+
     MainWindow(int width, int height, DirectedWeightedGraph g){
-        addMouseListener(this);
 
         this.graph= g;
 
@@ -45,7 +50,21 @@ public class MainWindow extends JFrame implements MouseListener {
                 System.exit(0);
             }
         });
+        ImageIcon icon = new ImageIcon("node.png");
+        setIconImage(icon.getImage());
         drawGraph();
+        mb = new JMenuBar();
+        menu = new JMenu("Menu Main");
+        exit = new JMenuItem("Exit");
+        menu.add(exit);
+        mb.add(menu);
+        exit.addActionListener(this);
+        this.setJMenuBar(mb);
+
+
+        setLayout(null);
+        setVisible(true);
+
     }
 
     @Override
@@ -125,30 +144,15 @@ public class MainWindow extends JFrame implements MouseListener {
         g.fillPolygon(new int[] {len, len- ARROW_SIZE, len- ARROW_SIZE, len},
                 new int[] {0, -ARROW_SIZE, ARROW_SIZE, 0}, 4);
     }
-    @Override
-    public void mouseClicked(MouseEvent e) {
 
-    }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void actionPerformed(ActionEvent e) {
+
+
+        if (e.getSource() == this.exit){
+            System.exit(0);
+        }
 
     }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-
 }

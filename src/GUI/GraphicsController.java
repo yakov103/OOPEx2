@@ -3,14 +3,23 @@ package GUI;
 import GUI.MainWindow;
 import api.DirectedWeightedGraph;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class GraphicsController {
 
     MainWindow frame;
     DirectedWeightedGraph directedGraph;
 
     public GraphicsController(DirectedWeightedGraph directedGraph){
-        frame = new MainWindow(1000,1000, directedGraph);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = dimension.height;
+        int width = dimension.width;
+        frame = new MainWindow(width,height, directedGraph);
+        ImageIcon icon = new ImageIcon("node.png");
+        frame.setIconImage(icon.getImage());
         this.directedGraph = directedGraph;
+
     }
 
 

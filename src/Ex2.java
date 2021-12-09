@@ -55,24 +55,22 @@ public class Ex2 {
      */
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
+
     }
 
     public static void main(String[] args) {
-    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
+   // String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
 
-     //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
+        String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
         DirectedWeightedGraph g = getGrapg(json_file);
         graphAlgo algo = new graphAlgo();
         algo.init(g);
+        boolean  flag= algo.isConnected();
 //        System.out.println(algo.isConnected());
         //    System.out.println((algo.shortestPathDist(8,2)));
 //        algo.shortestPath(1,12).forEach((a)->{
 //            System.out.println( a.getKey());
 //        });
-        System.out.println(algo.center().getKey());
         GraphicsController controller = new GraphicsController(g);
     }
 
