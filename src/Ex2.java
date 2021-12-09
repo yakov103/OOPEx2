@@ -1,11 +1,10 @@
+import GUI.GraphicsController;
 import api.*;
 import com.google.gson.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
-import javax.swing.*;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -62,10 +61,9 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-//    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOP-Ex2\\data\\G1.json";
-        //String json_file= "C:\\Users\\Yona Harel\\IdeaProjects\\OOP-Ex2\\data\\G3.json";
+    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
 
-        String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
+     //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G1.json";
         DirectedWeightedGraph g = getGrapg(json_file);
         graphAlgo algo = new graphAlgo();
         algo.init(g);

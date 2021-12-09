@@ -1,4 +1,6 @@
-package api;
+package GUI;
+import api.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

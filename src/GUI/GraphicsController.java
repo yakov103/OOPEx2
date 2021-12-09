@@ -1,6 +1,7 @@
-package api;
+package GUI;
 
-import java.util.Iterator;
+import GUI.MainWindow;
+import api.DirectedWeightedGraph;
 
 public class GraphicsController {
 
