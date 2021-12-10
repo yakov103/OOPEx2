@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
 
-
+    JFileChooser fileChooser;
 
 
     Boolean is_shortest_path;
@@ -73,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
     MainWindow(int width, int height, DirectedWeightedGraphAlgorithms g){
         this.algoGraph = g;
-        this.graph= g.getGraph();
+        this.graph= algoGraph.getGraph();
         this.index_of_shortest = new ArrayList<>();
         panel = new JPanel();
 //        getContentPane().add(panel);
@@ -283,6 +284,21 @@ public class MainWindow extends JFrame implements ActionListener {
         }
         else if (e.getSource() == this.find_shortest_path){
              showInputDialog();
+        }
+
+        else if (e.getSource() == this.load_file){
+            fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String location_file = selectedFile.getAbsolutePath();
+                algoGraph.load(location_file);
+                graph= algoGraph.getGraph();
+                nodes = new ArrayList<>();
+                drawGraph();
+            }
+
+
         }
 
         else if (e.getSource() == this.center_node){
