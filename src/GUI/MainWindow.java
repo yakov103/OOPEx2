@@ -2,6 +2,7 @@ package GUI;
 import api.*;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class MainWindow extends JFrame implements ActionListener {
@@ -118,18 +121,18 @@ public class MainWindow extends JFrame implements ActionListener {
         remove_node = new JMenuItem("remove node");
         size_nodes = new JMenuItem("count nodes");
 
-        algorithem_menu.add(check_if_connected);
-        algorithem_menu.add(find_shortest_path);
-        algorithem_menu.add(center_node);
+        algorithem_menu.add(check_if_connected);//done
+        algorithem_menu.add(find_shortest_path);//done
+        algorithem_menu.add(center_node);//done
         algorithem_menu.add(tsp );
 
 
-        file_menu.add(load_file);
-        file_menu.add(save_file);
-        file_menu.add(exit);
+        file_menu.add(load_file);//done
+        file_menu.add(save_file);//done
+        file_menu.add(exit);//done
 
-        nodes_menu.add(get_node);
-        nodes_menu.add(add_node);
+        nodes_menu.add(get_node);// done
+        nodes_menu.add(add_node);// need to add fixed place on graph
         nodes_menu.add(remove_node);
         nodes_menu.add(size_nodes);
 
@@ -260,7 +263,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
-        g.setColor(Color.MAGENTA);
         g.fillPolygon(new int[] {len, len- ARROW_SIZE, len- ARROW_SIZE, len},
                 new int[] {0, -ARROW_SIZE, ARROW_SIZE, 0}, 4);
     }
@@ -301,6 +303,40 @@ public class MainWindow extends JFrame implements ActionListener {
 
         }
 
+        else if (e.getSource() == this.save_file){
+            fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new java.io.File("."));
+            fileChooser.setDialogTitle("save graph");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == fileChooser.APPROVE_OPTION){
+                JPanel myPanel = new JPanel();
+                JTextField xField = new JTextField(20);
+                myPanel.add(new JLabel("Please choose file name to save :"));
+                myPanel.add(xField);
+                int result = JOptionPane.showConfirmDialog(null, myPanel, "Save file", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result ==  JOptionPane.OK_OPTION) {
+                    String devider = "/";
+                    if (isWindows(System.getProperty("os.name"))){
+                        devider = "\\";
+
+                    }
+                    System.out.println("\\");
+                    File selectedFolder = fileChooser.getSelectedFile();
+                    String pathToSave = selectedFolder.getAbsolutePath()+"/"+xField.getText()+".json";
+                    if (algoGraph.save(pathToSave)) {
+                        JOptionPane.showMessageDialog(null, "the graph saved successfully at : " + pathToSave);
+                    }
+                }
+
+            }
+            else {
+                    JOptionPane.showMessageDialog(null, "error saving file");
+            }
+        }
+
         else if (e.getSource() == this.center_node){
          int centerNodeKey=  algoGraph.center().getKey();
          index_of_shortest =new ArrayList<>();
@@ -312,9 +348,79 @@ public class MainWindow extends JFrame implements ActionListener {
         else if (e.getSource() == this.tsp ){
 
         }
+        else if (e.getSource() == this.get_node){
+            JPanel myPanel = new JPanel();
+            JTextField xField = new JTextField(5);
+            myPanel.add(new JLabel("Please choose key node :"));
+            myPanel.add(xField);
+            int result = JOptionPane.showConfirmDialog(null, myPanel, "Get Node", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result ==  JOptionPane.OK_OPTION) {
+               int keynode = Integer.parseInt(xField.getText());
+                index_of_shortest =new ArrayList<>();
+                index_of_shortest.add(keynode);
+                repaint();
+                JOptionPane.showMessageDialog(null,"the postion of youre node is ("+graph.getNode(keynode).getLocation().x()+","+graph.getNode(keynode).getLocation().y()+")");
+            }
 
 
+        }
 
+        else if (e.getSource() == this.add_node) {
+            JPanel myPanel = new JPanel();
+            JTextField xField = new JTextField(5);
+            myPanel.add(new JLabel("please choose new key num for :"));
+            myPanel.add(xField);
+            int result = JOptionPane.showConfirmDialog(null, myPanel, "Get Node", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+                int choosen_key = Integer.parseInt(xField.getText());
+                List <Integer> checkIfContain= new ArrayList<>();
+                checkIfContain = nodes.stream().map(x ->x.getKey()).collect(Collectors.toList());
+
+                if (checkIfContain.contains(choosen_key)){
+                   JOptionPane.showMessageDialog(null,"key node already in the graph, please try again another key ! ");
+                   return ;
+                }
+                int x_and_y[]= new int[2];
+                this.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        double factorX = getWidth() / scaleX * 0.8;
+                        double factorY = getHeight() / scaleY * 0.8;
+                        x_and_y[0]= e.getX();
+                        x_and_y[1]= e.getY();
+                        double x = (x_and_y[0] - minX)-getWidth() + incrementX;
+                        double y = (x_and_y[1] - minY)-getHeight()  + incrementY;// error with choosing with mouse
+                        System.out.println(x+","+y);
+                        NodeV newNodeAdd = new NodeV(choosen_key,x+","+y+",0.0");
+                        algoGraph.getGraph().addNode(newNodeAdd);
+                        graph = algoGraph.getGraph();
+                        drawGraph();
+                    }
+                });
+
+            }
+
+
+        }
+
+        else if (e.getSource() == remove_node){
+            JPanel myPanel = new JPanel();
+            JTextField xField = new JTextField(5);
+            myPanel.add(new JLabel("please choose node key to remove  :"));
+            myPanel.add(xField);
+            int result = JOptionPane.showConfirmDialog(null, myPanel, "Remove Node", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+                this.graph.removeNode(Integer.parseInt(xField.getText()));
+                algoGraph.init(this.graph);
+                drawGraph();
+
+            }
+
+        }
     }
 
     public void infoBox(String infoMessage, String titleBar, boolean flag)
@@ -343,8 +449,7 @@ public class MainWindow extends JFrame implements ActionListener {
         myPanel.add(new JLabel("destination:"));
         myPanel.add(yField);
 
-        int result = JOptionPane.showConfirmDialog(null, myPanel,
-                "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, myPanel, "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             int src = Integer.parseInt(xField.getText()) ;
             int dest = Integer.parseInt(yField.getText());
@@ -358,4 +463,9 @@ public class MainWindow extends JFrame implements ActionListener {
 
         }
     }
+
+    public static boolean isWindows(String OSname){
+        return OSname.startsWith("Windows");
+    }
+
 }

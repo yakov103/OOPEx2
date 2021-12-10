@@ -58,7 +58,7 @@ public class Ex2 {
 
     public static void main(String[] args) {
     //String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
-
+        System.out.println(System.getProperty("os.name"));
          String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
         DirectedWeightedGraph g = getGrapg(json_file);
         graphAlgo algo = new graphAlgo();
