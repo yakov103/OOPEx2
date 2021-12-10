@@ -37,6 +37,23 @@ public class MainWindow extends JFrame implements ActionListener {
 
     JMenuBar mb ;
 
+    JMenu file_menu;
+    JMenuItem load_file;
+    JMenuItem save_file;
+    JMenuItem exit;
+
+
+    JMenu nodes_menu;
+    JMenuItem get_node;
+    JMenuItem add_node;
+    JMenuItem remove_node;
+    JMenuItem size_nodes;
+
+    JMenu edges_menu;
+    JMenuItem get_edge;
+    JMenuItem add_edge;
+    JMenuItem remove_edge;
+    JMenuItem size_edges;
 
     JMenu algorithem_menu;
     JMenuItem check_if_connected;
@@ -44,7 +61,11 @@ public class MainWindow extends JFrame implements ActionListener {
     JMenuItem shortest_path;
     JMenuItem center_node;
     JMenuItem tsp ;
-    JMenuItem exit;
+
+
+
+
+
 
     Boolean is_shortest_path;
     List<NodeData> listOfShort;
@@ -69,19 +90,56 @@ public class MainWindow extends JFrame implements ActionListener {
         ImageIcon icon = new ImageIcon("node.png");
         setIconImage(icon.getImage());
         mb = new JMenuBar();
+        file_menu = new JMenu("File");
+        nodes_menu = new JMenu("Nodes");
+        edges_menu = new JMenu("Edges");
         algorithem_menu = new JMenu("Algorithms");
-        exit = new JMenuItem("Exit");
+
+
+
         check_if_connected=new JMenuItem("check if connected");
         find_shortest_path=new JMenuItem("find shortest path");
         shortest_path=new JMenuItem("shortest path");
         center_node=new JMenuItem("find center");
         tsp =new JMenuItem("tsp");
 
+        load_file = new JMenuItem("load graph");
+        save_file = new JMenuItem("save graph");
+        exit = new JMenuItem("exit");
+
+        get_edge = new JMenuItem("get edge");
+        add_edge = new JMenuItem("add edge");
+        remove_edge = new JMenuItem("remove edge");
+        size_edges = new JMenuItem("count edges");
+
+        get_node = new JMenuItem("get node");
+        add_node = new JMenuItem("add node");
+        remove_node = new JMenuItem("remove node");
+        size_nodes = new JMenuItem("count nodes");
+
         algorithem_menu.add(check_if_connected);
         algorithem_menu.add(find_shortest_path);
         algorithem_menu.add(center_node);
         algorithem_menu.add(tsp );
-        algorithem_menu.add(exit);
+
+
+        file_menu.add(load_file);
+        file_menu.add(save_file);
+        file_menu.add(exit);
+
+        nodes_menu.add(get_node);
+        nodes_menu.add(add_node);
+        nodes_menu.add(remove_node);
+        nodes_menu.add(size_nodes);
+
+        edges_menu.add(get_edge);
+        edges_menu.add(add_edge);
+        edges_menu.add(remove_edge);
+        edges_menu.add(size_edges);
+
+        mb.add(file_menu);
+        mb.add(nodes_menu);
+        mb.add(edges_menu);
         mb.add(algorithem_menu);
         exit.addActionListener(this);
         check_if_connected.addActionListener(this);
@@ -89,6 +147,16 @@ public class MainWindow extends JFrame implements ActionListener {
         center_node.addActionListener(this);
         tsp .addActionListener(this);
         exit.addActionListener(this);
+        get_node.addActionListener(this);
+        add_node.addActionListener(this);
+        remove_node.addActionListener(this);
+        size_nodes.addActionListener(this);
+        get_edge.addActionListener(this);
+        add_edge.addActionListener(this);
+        remove_edge.addActionListener(this);
+        size_edges.addActionListener(this);
+        load_file.addActionListener(this);
+        save_file.addActionListener(this);
         this.setJMenuBar(mb);
 
 
@@ -142,6 +210,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 g2.setColor(color);
                 g2.fill(ellipse);
                 g2.draw(ellipse);
+                g2.drawString(p.getKey()+"",(float) x-10,(float)y-10);
             }
 
 
@@ -211,14 +280,18 @@ public class MainWindow extends JFrame implements ActionListener {
             this.infoBox("the graph is not connected !", "isConnceted", flag);
         }
 
-
         }
         else if (e.getSource() == this.find_shortest_path){
              showInputDialog();
         }
 
         else if (e.getSource() == this.center_node){
-         NodeData centerNode=  algoGraph.center();
+         int centerNodeKey=  algoGraph.center().getKey();
+         index_of_shortest =new ArrayList<>();
+         index_of_shortest.add(centerNodeKey);
+         repaint();
+         JOptionPane.showMessageDialog(null,"the center node is : "+ centerNodeKey);
+
         }
         else if (e.getSource() == this.tsp ){
 
@@ -241,30 +314,11 @@ public class MainWindow extends JFrame implements ActionListener {
 
     }
 
-    public void infoBoxWithValue (String infoMessage, int case_num) {
-    showInputDialog();
-//        try {
-//
-//            Runnable runnable = new popMSG(algoGraph);
-//            synchronized (runnable) {
-//                Thread thread = new Thread(runnable);
-//                thread.start();
-//                thread.wait();
-//                index_of_shortest = ((popMSG) runnable).getList();
-//                repaint();
-//                return;
-//            }
-//        } catch (Exception e){
-//
-//        }
-//      newPOP = new popMSG(this.algoGraph);
-//        while(newPOP.isActive()) try { Thread.sleep(1000); } catch (Exception e) {}
 
-    }
     private void showInputDialog() {
         JTextField xField = new JTextField(5);
         JTextField yField = new JTextField(5);
-
+        index_of_shortest = new ArrayList<>();
 
         JPanel myPanel = new JPanel();
         myPanel.add(new JLabel("source:"));
@@ -280,10 +334,12 @@ public class MainWindow extends JFrame implements ActionListener {
             int dest = Integer.parseInt(yField.getText());
 
             double distance = algoGraph.shortestPathDist(src,dest);
-            JOptionPane.showMessageDialog(this,"The distance is " + distance);
+
             List<NodeData> nodes = algoGraph.shortestPath(src,dest);
             index_of_shortest = nodes.stream().map(x -> x.getKey()).collect(Collectors.toList());
             repaint();
+            JOptionPane.showMessageDialog(this,"The distance is " + distance);
+
         }
     }
 }
