@@ -121,7 +121,7 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-
+        DirectedGraph graph=this.graph;
         shortestPathDist(src,dest);
         List<NodeData> l=new ArrayList<NodeData>();
         NodeV destNode=(NodeV)this.graph.NodesHash.get(dest);

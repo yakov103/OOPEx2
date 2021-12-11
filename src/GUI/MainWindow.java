@@ -17,9 +17,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public class MainWindow extends JFrame implements ActionListener {
+public class MainWindow extends JFrame implements ActionListener, MouseListener {
     private static final int ARROW_SIZE = 7;
-
+    int width;
+    int height;
+    boolean needToChoose;
     JPanel panel;
     JFrame popUP;
     popMSG newPOP;
@@ -69,7 +71,8 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
     JFileChooser fileChooser;
-
+    int x_and_y[];
+    int choosen_key;
 
     Boolean is_shortest_path;
     List<NodeData> listOfShort;
@@ -79,10 +82,13 @@ public class MainWindow extends JFrame implements ActionListener {
         this.algoGraph = g;
         this.graph= algoGraph.getGraph();
         this.index_of_shortest = new ArrayList<>();
-        panel = new JPanel();
+        needToChoose =false;
+        x_and_y= new int[2];
 //        getContentPane().add(panel);
         nodes = new ArrayList();
-        setSize(width,height);
+        this.height = height;
+        this.width = width;
+        setSize(this.width,this.height);
         setLayout(null);
         setVisible(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -91,8 +97,6 @@ public class MainWindow extends JFrame implements ActionListener {
                 System.exit(0);
             }
         });
-        ImageIcon icon = new ImageIcon("node.png");
-        setIconImage(icon.getImage());
         mb = new JMenuBar();
         file_menu = new JMenu("File");
         nodes_menu = new JMenu("Nodes");
@@ -133,13 +137,13 @@ public class MainWindow extends JFrame implements ActionListener {
 
         nodes_menu.add(get_node);// done
         nodes_menu.add(add_node);// need to add fixed place on graph
-        nodes_menu.add(remove_node);
-        nodes_menu.add(size_nodes);
+        nodes_menu.add(remove_node);// need to be fixed
+       // nodes_menu.add(size_nodes);// is needed ?
 
-        edges_menu.add(get_edge);
-        edges_menu.add(add_edge);
+        edges_menu.add(get_edge);//done
+        edges_menu.add(add_edge);//done
         edges_menu.add(remove_edge);
-        edges_menu.add(size_edges);
+        //edges_menu.add(size_edges);// is needed ?
 
         mb.add(file_menu);
         mb.add(nodes_menu);
@@ -154,11 +158,11 @@ public class MainWindow extends JFrame implements ActionListener {
         get_node.addActionListener(this);
         add_node.addActionListener(this);
         remove_node.addActionListener(this);
-        size_nodes.addActionListener(this);
+        //size_nodes.addActionListener(this);
         get_edge.addActionListener(this);
         add_edge.addActionListener(this);
         remove_edge.addActionListener(this);
-        size_edges.addActionListener(this);
+        //size_edges.addActionListener(this);
         load_file.addActionListener(this);
         save_file.addActionListener(this);
         this.setJMenuBar(mb);
@@ -177,26 +181,47 @@ public class MainWindow extends JFrame implements ActionListener {
         Graphics2D g2 = (Graphics2D) g;
         double factorX = getWidth() / scaleX * 0.8;
         double factorY = getHeight() / scaleY * 0.8;
-
         Color color = Color.BLUE;
 
         g2.setColor(color);
         Iterator iter = graph.edgeIter();
+        HashMap<String,Integer> alreadyWay= new HashMap<String,Integer>();
         while (iter.hasNext()) {
+            boolean isFromPath= false;
+            color = Color.BLUE;
+            g2.setColor(color);
             Edge edge = (Edge) iter.next();
             String key = edge.getKey();
             NodeData srcNode = graph.getNode(edge.getSrc());
             NodeData destNode = graph.getNode(edge.getDest());
             if (index_of_shortest.contains(srcNode.getKey()) && index_of_shortest.contains(destNode.getKey())){
-                g2.setColor(Color.red);
-            } else {
-                g2.setColor(Color.blue);
+                if (index_of_shortest.indexOf(srcNode.getKey())+1 == index_of_shortest.indexOf(destNode.getKey())  ){
+                    g2.setColor(Color.red);
+                    isFromPath = true;
+                }
+
+
+
             }
-            double x1 =incrementX +(srcNode.getLocation().x()-minX)*factorX;
-            double y1 =incrementY+ (srcNode.getLocation().y()-minY)*factorY;
+            double x1 =incrementX +(srcNode.getLocation().x()-minX)*factorX ;
+            double y1 =incrementY+ (srcNode.getLocation().y()-minY)*factorY ;
             double x2 = incrementX+ (destNode.getLocation().x()-minX)*factorX ;
             double y2 = incrementY+ (destNode.getLocation().y()-minY)*factorY ;
-            drawArrow(g, (int)x1, (int)y1, (int)x2, (int)y2);
+            if (x1 > x2){
+                if (!isFromPath) g2.setColor(new Color(0x045D04));
+                y1 = y1 - 5;
+                y2 = y2 - 5;
+
+
+            }else {
+                y1 = y1+ 5;
+                y2 = y2 + 5;
+            }
+
+
+
+            drawArrow(g, (int)x1, (int)y1-5 , (int)x2, (int)y2-5);
+
         }
 
 
@@ -204,8 +229,9 @@ public class MainWindow extends JFrame implements ActionListener {
             for (NodeV p : nodes) {
 
                 double x = (p.getLocation().x() - minX) * factorX + incrementX;
+                //  = p.getLocation().x()
                 double y = (p.getLocation().y() - minY) * factorY + incrementY;
-                Ellipse2D.Double ellipse = new Ellipse2D.Double(x-10 , y-10 ,15, 15);
+                Ellipse2D.Double ellipse = new Ellipse2D.Double(x-5 , y-5 ,10, 10);
                 color = Color.BLACK;
                 if (index_of_shortest.contains(p.getKey())){
                     color = Color.red;
@@ -216,8 +242,6 @@ public class MainWindow extends JFrame implements ActionListener {
                 g2.draw(ellipse);
                 g2.drawString(p.getKey()+"",(float) x-10,(float)y-10);
             }
-
-
 
 
     }
@@ -235,6 +259,7 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     public void drawGraph(){
+
         Iterator iter = graph.nodeIter();
         while(iter.hasNext()){
             NodeV node = (NodeV) iter.next();
@@ -248,13 +273,16 @@ public class MainWindow extends JFrame implements ActionListener {
         scaleX = Math.abs(maxX-minX);
         scaleY = Math.abs(maxY-minY);
         repaint();
+        setSize(width,height);
+        setLayout(null);
+        setVisible(true);
     }
 
 
     void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
-        double dx = x2 - x1, dy = y2 - y1;
+        double dx = x2 - x1 -5 , dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
         int len = (int) Math.sqrt(dx*dx + dy*dy);
         AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
@@ -325,7 +353,7 @@ public class MainWindow extends JFrame implements ActionListener {
                     }
                     System.out.println("\\");
                     File selectedFolder = fileChooser.getSelectedFile();
-                    String pathToSave = selectedFolder.getAbsolutePath()+"/"+xField.getText()+".json";
+                    String pathToSave = selectedFolder.getAbsolutePath()+devider+xField.getText()+".json";
                     if (algoGraph.save(pathToSave)) {
                         JOptionPane.showMessageDialog(null, "the graph saved successfully at : " + pathToSave);
                     }
@@ -341,7 +369,7 @@ public class MainWindow extends JFrame implements ActionListener {
          int centerNodeKey=  algoGraph.center().getKey();
          index_of_shortest =new ArrayList<>();
          index_of_shortest.add(centerNodeKey);
-         repaint();
+         drawGraph();
          JOptionPane.showMessageDialog(null,"the center node is : "+ centerNodeKey);
 
         }
@@ -359,12 +387,13 @@ public class MainWindow extends JFrame implements ActionListener {
                int keynode = Integer.parseInt(xField.getText());
                 index_of_shortest =new ArrayList<>();
                 index_of_shortest.add(keynode);
-                repaint();
+                drawGraph();
                 JOptionPane.showMessageDialog(null,"the postion of youre node is ("+graph.getNode(keynode).getLocation().x()+","+graph.getNode(keynode).getLocation().y()+")");
             }
 
 
         }
+
 
         else if (e.getSource() == this.add_node) {
             JPanel myPanel = new JPanel();
@@ -374,7 +403,7 @@ public class MainWindow extends JFrame implements ActionListener {
             int result = JOptionPane.showConfirmDialog(null, myPanel, "Get Node", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION) {
-                int choosen_key = Integer.parseInt(xField.getText());
+                choosen_key = Integer.parseInt(xField.getText());
                 List <Integer> checkIfContain= new ArrayList<>();
                 checkIfContain = nodes.stream().map(x ->x.getKey()).collect(Collectors.toList());
 
@@ -382,24 +411,10 @@ public class MainWindow extends JFrame implements ActionListener {
                    JOptionPane.showMessageDialog(null,"key node already in the graph, please try again another key ! ");
                    return ;
                 }
-                int x_and_y[]= new int[2];
-                this.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-                        double factorX = getWidth() / scaleX * 0.8;
-                        double factorY = getHeight() / scaleY * 0.8;
-                        x_and_y[0]= e.getX();
-                        x_and_y[1]= e.getY();
-                        double x = (x_and_y[0] - minX)-getWidth() + incrementX;
-                        double y = (x_and_y[1] - minY)-getHeight()  + incrementY;// error with choosing with mouse
-                        System.out.println(x+","+y);
-                        NodeV newNodeAdd = new NodeV(choosen_key,x+","+y+",0.0");
-                        algoGraph.getGraph().addNode(newNodeAdd);
-                        graph = algoGraph.getGraph();
-                        drawGraph();
-                    }
-                });
+
+                needToChoose = true;
+                this.addMouseListener(this);
+
 
             }
 
@@ -417,10 +432,65 @@ public class MainWindow extends JFrame implements ActionListener {
                 this.graph.removeNode(Integer.parseInt(xField.getText()));
                 algoGraph.init(this.graph);
                 drawGraph();
+            }
+
+        }
+
+        else if (e.getSource() == get_edge){
+            JPanel myPanel = new JPanel();
+            JTextField fieldSrc = new JTextField(5);
+            JTextField fieldDest = new JTextField(5);
+            myPanel.add(new JLabel("source:"));
+            myPanel.add(fieldSrc);
+            myPanel.add(Box.createHorizontalStrut(15));
+            myPanel.add(new JLabel("destination: "));
+            myPanel.add(fieldDest);
+
+            int resualt = JOptionPane.showConfirmDialog(null,myPanel,"get edge ", JOptionPane.OK_CANCEL_OPTION);
+            if (resualt == JOptionPane.OK_OPTION){
+                int srcEdge = Integer.parseInt(fieldSrc.getText());
+                int destEdge = Integer.parseInt(fieldDest.getText());
+                index_of_shortest =new ArrayList<>();
+                index_of_shortest.add(srcEdge);
+                index_of_shortest.add(destEdge);
+                drawGraph();
+
+                JOptionPane.showMessageDialog(null,"the weight of the edge is "+this.algoGraph.getGraph().getEdge(srcEdge,destEdge).getWeight() );
 
             }
 
         }
+
+        else if (e.getSource() == add_edge){
+        JTextField fieldSrc = new JTextField(5);
+        JTextField fieldDest = new JTextField(5);
+        JTextField fieldWeight = new JTextField(10);
+        JPanel myPanel = new JPanel();
+
+        myPanel.add(new JLabel("source:"));
+        myPanel.add(fieldSrc);
+        myPanel.add(Box.createHorizontalStrut(15));
+        myPanel.add(new JLabel("destination: "));
+        myPanel.add(fieldDest);
+        myPanel.add(new JLabel("Weight: "));
+        myPanel.add(fieldWeight);
+
+        int resualt = JOptionPane.showConfirmDialog(null,myPanel,"Add edge ", JOptionPane.OK_CANCEL_OPTION);
+        if (resualt == JOptionPane.OK_OPTION){
+            int srcEdge = Integer.parseInt(fieldSrc.getText());
+            int destEdge = Integer.parseInt(fieldDest.getText());
+            double weightEdge = Double.valueOf(fieldWeight.getText());
+            this.graph.connect(srcEdge,destEdge,weightEdge);
+            this.algoGraph.getGraph().connect(srcEdge,destEdge,weightEdge);
+            drawGraph();
+
+        }
+
+
+
+
+        }
+
     }
 
     public void infoBox(String infoMessage, String titleBar, boolean flag)
@@ -449,7 +519,7 @@ public class MainWindow extends JFrame implements ActionListener {
         myPanel.add(new JLabel("destination:"));
         myPanel.add(yField);
 
-        int result = JOptionPane.showConfirmDialog(null, myPanel, "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, myPanel, "Shortest path", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             int src = Integer.parseInt(xField.getText()) ;
             int dest = Integer.parseInt(yField.getText());
@@ -458,7 +528,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
             List<NodeData> nodes = algoGraph.shortestPath(src,dest);
             index_of_shortest = nodes.stream().map(x -> x.getKey()).collect(Collectors.toList());
-            repaint();
+            drawGraph();
             JOptionPane.showMessageDialog(this,"The distance is " + distance);
 
         }
@@ -467,5 +537,55 @@ public class MainWindow extends JFrame implements ActionListener {
     public static boolean isWindows(String OSname){
         return OSname.startsWith("Windows");
     }
+    public static double scaleMouse(double data, double r_min, double r_max, double t_min, double t_max)
+    {
+        double res = ((data -t_min)/(t_max - t_min))*(r_max-r_min)+r_min;
+        return res;
 
+        //32.343434343 -> 100
+        //33.0001
+        //(res1 -  t_min ) = ((data - r_min) / (r_max-r_min)) * (t_max - t_min) ;
+        //((res1 -  t_min )/(t_max - t_min))*(r_max-r_min)+r_min = data
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+            double factorX = getWidth() / scaleX * 0.8;
+            double factorY = getHeight() / scaleY * 0.8;
+            x_and_y[0]= e.getX();
+            x_and_y[1]= e.getY();
+
+            double x =  ((x_and_y[0] - incrementX ) / factorX) + minX;
+            double y =  ((x_and_y[1] - incrementY ) / factorY) + minY;
+            System.out.println(x+","+y);
+            NodeV newNodeAdd = new NodeV(choosen_key,x+","+y+",0.0");
+            algoGraph.getGraph().addNode(newNodeAdd);
+            graph = algoGraph.getGraph();
+            drawGraph();
+            this.removeMouseListener(this);
+
+
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }
