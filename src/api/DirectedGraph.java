@@ -66,7 +66,13 @@ public class DirectedGraph implements DirectedWeightedGraph {
     @Override
     public EdgeData getEdge(int src, int dest) {
         String t = src + "_" + dest;
-        return EdgesHash.get(t);
+        if (EdgesHash.containsKey(t)){
+            return EdgesHash.get(t);
+        }
+        else {
+         return null;
+        }
+
     }
 
     @Override
