@@ -71,14 +71,16 @@ public class DirectedGraph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
-        MC++;
-        NodesHash.put(n.getKey(), n);
-        if (IEdges.size() <= n.getKey()) {
-            IEdges.add(new ArrayList<>());       //need to check if the id is ok,if we get order id
-            IEdgesEdge.add(new ArrayList<>());
+        if (n != null) {
+            MC++;
+            NodesHash.put(n.getKey(), n);
+            if (IEdges.size() <= n.getKey()) {
+                IEdges.add(new ArrayList<>());       //need to check if the id is ok,if we get order id
+                IEdgesEdge.add(new ArrayList<>());
+            }
+            if (!this.nodeList.contains(n.getKey()))
+                this.nodeList.add(n.getKey());
         }
-        if (!this.nodeList.contains(n.getKey()))
-            this.nodeList.add(n.getKey());
     }
 
     @Override

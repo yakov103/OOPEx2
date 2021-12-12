@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public void init(DirectedWeightedGraph g) {
-        this.graph = new DirectedGraph( (DirectedGraph )g);
+        this.graph = new DirectedGraph((DirectedGraph)g);
     }
 
     @Override
@@ -125,10 +123,13 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
         shortestPathDist(src,dest);
         List<NodeData> l=new ArrayList<NodeData>();
         NodeV destNode=(NodeV)this.graph.NodesHash.get(dest);
+        NodeV destNodeTemp;
 
         while(destNode.previous!=null) {
             l.add(0,destNode);
+            destNodeTemp=destNode;
             destNode=destNode.previous;
+            destNodeTemp.previous=null;
         }
         l.add(0,destNode);
 
@@ -161,6 +162,7 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
                 center = t;                                   //save the node
             }
         }
+        ((NodeV)center).previous=null;
         return center;
     }
 
@@ -226,27 +228,18 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean load(String file) {
-        String JsonString="";
-        try {
-            File f = new File(file);
-            Scanner myReader = new Scanner(f);
-            while (myReader.hasNextLine()) {
-                JsonString += myReader.nextLine();
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
 
-        DirectedWeightedGraph ans=null;
-        String JsonS=JsonString;
-        Gson json =new Gson();
-        ans= json.fromJson(JsonString,DirectedGraph.class);
-        ans=new DirectedGraph((DirectedGraph) ans);
-        this.graph=(DirectedGraph) ans;
+        DirectedGraph ans=null;
+        Gson json=new Gson();
+        try {
+            ans=json.fromJson(new FileReader(file), DirectedGraph.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       this.graph=new DirectedGraph(ans);
         return true;
     }
+
     public static void BFS(DirectedGraph graph,String color) {
         Stack<NodeData> S = new Stack();
         int startNode = graph.nodeList.get(0);

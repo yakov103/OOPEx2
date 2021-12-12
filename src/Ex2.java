@@ -4,6 +4,10 @@ import com.google.gson.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,25 +20,14 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraph getGrapg(String json_file) {
-        String JsonString="";
+        DirectedGraph ans=null;
+        Gson json=new Gson();
         try {
-            File f = new File(json_file);
-            Scanner myReader = new Scanner(f);
-            while (myReader.hasNextLine()) {
-                JsonString += myReader.nextLine();
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            ans=json.fromJson(new FileReader(json_file), DirectedGraph.class);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        DirectedWeightedGraph ans=null;
-        String JsonS=JsonString;
-        Gson json =new Gson();
-        ans= json.fromJson(JsonString,DirectedGraph.class);
-        ans=new DirectedGraph((DirectedGraph) ans);
-        return ans;
+        return new DirectedGraph(ans);
     }
     /**
      * This static function will be used to test your implementation
@@ -42,7 +35,8 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
-        DirectedWeightedGraphAlgorithms ans = new graphAlgo((DirectedGraph) getGrapg(json_file));
+        DirectedWeightedGraphAlgorithms ans=new graphAlgo() ;
+        ans.load(json_file);
         return ans;
     }
     /**
@@ -57,21 +51,36 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    //String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G1.json";
-
-         String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
-        DirectedWeightedGraph g = getGrapg(json_file);
-        graphAlgo algo = new graphAlgo();
-        algo.init(g);
-        runGUI(json_file);
-      //  boolean  flag= algo.isConnected();
-        System.out.println(algo.isConnected());
-        System.out.println(algo.center());
-            System.out.println((algo.shortestPathDist(8,60)));
-        algo.shortestPath(1,12).forEach((a)->{
+    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\data\\G3.json";
+//        DirectedGraph g1=(DirectedGraph) getGrapg(json_file);
+//        g1.nodeIter().next();
+//        g1.getMC();
+      //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
+        DirectedWeightedGraphAlgorithms algo =new graphAlgo() ;
+        algo.load(json_file);
+        System.out.println("load");
+     //   runGUI(json_file);
+//        boolean  flag= algo.isConnected();
+//        System.out.println(algo.isConnected());
+//        System.out.println("///////////////////////");
+//        System.out.println((algo.shortestPathDist(220,235)));
+//        System.out.println((algo.shortestPathDist(11,19)));
+//        System.out.println("///////////////////////");
+//        algo.shortestPath(20,14).forEach((a)->{
+//            System.out.println( a.getKey());
+//        });
+//        System.out.println("///////////////////////");
+//        System.out.println(algo.center());
+        //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
+        List<NodeData> list=new ArrayList();
+        list.add(algo.getGraph().getNode(37));
+        list.add(algo.getGraph().getNode(4));
+        list.add(algo.getGraph().getNode(47));
+        //list.add(algo.getGraph().getNode(7));
+        algo.tsp(list).forEach((a)->{
             System.out.println( a.getKey());
         });
-      //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
+
     }
 
 }
