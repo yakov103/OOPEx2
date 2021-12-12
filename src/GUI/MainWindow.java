@@ -457,20 +457,6 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
         }
 
-        else if (e.getSource() == remove_node){
-            JPanel myPanel = new JPanel();
-            JTextField xField = new JTextField(5);
-            myPanel.add(new JLabel("please choose node key to remove  :"));
-            myPanel.add(xField);
-            int result = JOptionPane.showConfirmDialog(null, myPanel, "Remove Node", JOptionPane.OK_CANCEL_OPTION);
-
-            if (result == JOptionPane.OK_OPTION) {
-                this.graph.removeNode(Integer.parseInt(xField.getText()));
-                algoGraph.init(this.graph);
-                drawGraph();
-            }
-
-        }
 
         else if (e.getSource() == get_edge){
             JPanel myPanel = new JPanel();
@@ -521,11 +507,49 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             drawGraph();
 
         }
+        }
 
+        else if (e.getSource() == remove_edge){
+            JPanel mypanel = new JPanel();
+            JTextField fieldSrc = new JTextField(5);
+            JTextField fieldDest = new JTextField(5);
+            mypanel.add(new JLabel("please select edge to remove : "));
+            mypanel.add(new JLabel("source : "));
+            mypanel.add(fieldSrc);
+            mypanel.add(new JLabel("destination: "));
+            mypanel.add(fieldDest);
+            int resualt = JOptionPane.showConfirmDialog(null,mypanel,"remove edge ", JOptionPane.OK_CANCEL_OPTION);
+            if (resualt == JOptionPane.OK_OPTION) {
+                int src = Integer.parseInt(fieldSrc.getText());
+                int dest= Integer.parseInt(fieldDest.getText());
+                    this.algoGraph.getGraph().removeEdge(src,dest);
+                    this.graph.removeEdge(src,dest);
+                    index_of_shortest = new ArrayList<>();
+                    drawGraph();
+            }
+            }
 
+        else if (e.getSource() == remove_node){
+            JPanel myPanel = new JPanel();
+            JTextField fieldKey= new JTextField(5);
+            myPanel.add(new JLabel("choose key node to remove :"));
+            myPanel.add(fieldKey);
+            int resualt = JOptionPane.showConfirmDialog(null,myPanel,"remove node ", JOptionPane.OK_CANCEL_OPTION);
+            if (resualt == JOptionPane.OK_OPTION) {
+                int key = Integer.parseInt(fieldKey.getText());
+                this.algoGraph.getGraph().removeNode(key);
+                this.graph.removeNode(key);
+
+                drawGraph();
+
+            }
 
 
         }
+
+
+
+
 
 
 
@@ -583,7 +607,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
         //32.343434343 -> 100
         //33.0001
         //(res1 -  t_min ) = ((data - r_min) / (r_max-r_min)) * (t_max - t_min) ;
-        //((res1 -  t_min )/(t_max - t_min))*(r_max-r_min)+r_min = data
+        //((res1 -  t_min )/(t_max - t_min))*(r_max-r_min)+r_min = data;
 
     }
 
