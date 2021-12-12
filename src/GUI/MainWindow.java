@@ -8,9 +8,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.File;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.awt.event.MouseAdapter;
@@ -374,6 +372,44 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
         }
         else if (e.getSource() == this.tsp ){
+            JPanel myPanel = new JPanel();
+            JTextField countField = new JTextField(5);
+            myPanel.add(new JLabel( "please enter im how many nodes do you want to travel :"));
+            myPanel.add(countField);
+            int resualt = JOptionPane.showConfirmDialog(null,myPanel,"TSP", JOptionPane.OK_CANCEL_OPTION);
+            if (resualt == JOptionPane.OK_OPTION){
+                myPanel = new JPanel();
+                int cnt = Integer.parseInt(countField.getText());
+                JTextField numbersField []= new JTextField[cnt];
+                myPanel.add(new JLabel("please add the nodes by order"));
+                for ( int i = 0 ; i < cnt ; i++){
+                    numbersField[i] = new JTextField(5);
+                    myPanel.add(numbersField[i]);
+                }
+                resualt = JOptionPane.showConfirmDialog(null,myPanel,"TSP", JOptionPane.OK_CANCEL_OPTION);
+                if (resualt == JOptionPane.OK_OPTION){
+                    List <NodeData> listToAdd = new LinkedList<>();
+                    int key;
+                    for ( int i = 0 ; i < cnt ; i ++){
+                        key = Integer.parseInt(numbersField[i].getText());
+                        listToAdd.add(this.algoGraph.getGraph().getNode(key));
+                    }
+
+                    listToAdd = this.algoGraph.tsp(listToAdd);
+                    for ( int i =0 ; i < listToAdd.size() ; i ++){
+                        System.out.println(listToAdd.get(i).getKey());
+                    }
+
+                    index_of_shortest = listToAdd.stream().map(x -> x.getKey()).collect(Collectors.toList());
+                    drawGraph();
+
+
+                }
+            }
+
+
+
+
 
         }
         else if (e.getSource() == this.get_node){
@@ -491,6 +527,8 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
         }
 
+
+
     }
 
     public void infoBox(String infoMessage, String titleBar, boolean flag)
@@ -558,9 +596,8 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
             double x =  ((x_and_y[0] - incrementX ) / factorX) + minX;
             double y =  ((x_and_y[1] - incrementY ) / factorY) + minY;
-            System.out.println(x+","+y);
             NodeV newNodeAdd = new NodeV(choosen_key,x+","+y+",0.0");
-            algoGraph.getGraph().addNode(newNodeAdd);
+            algoGraph.getGraph().addNode((NodeData) newNodeAdd);
             graph = algoGraph.getGraph();
             drawGraph();
             this.removeMouseListener(this);
