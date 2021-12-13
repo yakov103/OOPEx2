@@ -133,15 +133,15 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
         file_menu.add(save_file);//done
         file_menu.add(exit);//done
 
-        nodes_menu.add(get_node);// done
-        nodes_menu.add(add_node);// need to add fixed place on graph
-        nodes_menu.add(remove_node);// need to be fixed
-       // nodes_menu.add(size_nodes);// is needed ?
+        nodes_menu.add(get_node);//
+        nodes_menu.add(add_node);//
+        nodes_menu.add(remove_node);//
+        nodes_menu.add(size_nodes);//
 
         edges_menu.add(get_edge);//done
         edges_menu.add(add_edge);//done
         edges_menu.add(remove_edge);
-        //edges_menu.add(size_edges);// is needed ?
+        edges_menu.add(size_edges);//
 
         mb.add(file_menu);
         mb.add(nodes_menu);
@@ -156,11 +156,11 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
         get_node.addActionListener(this);
         add_node.addActionListener(this);
         remove_node.addActionListener(this);
-        //size_nodes.addActionListener(this);
+        size_nodes.addActionListener(this);
         get_edge.addActionListener(this);
         add_edge.addActionListener(this);
         remove_edge.addActionListener(this);
-        //size_edges.addActionListener(this);
+        size_edges.addActionListener(this);
         load_file.addActionListener(this);
         save_file.addActionListener(this);
         this.setJMenuBar(mb);
@@ -227,7 +227,6 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             for (NodeV p : nodes) {
 
                 double x = (p.getLocation().x() - minX) * factorX + incrementX;
-                //  = p.getLocation().x()
                 double y = (p.getLocation().y() - minY) * factorY + incrementY;
                 Ellipse2D.Double ellipse = new Ellipse2D.Double(x-5 , y-5 ,10, 10);
                 color = Color.BLACK;
@@ -238,7 +237,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 g2.setColor(color);
                 g2.fill(ellipse);
                 g2.draw(ellipse);
-                g2.drawString(p.getKey()+"",(float) x-10,(float)y-10);
+                g2.drawString("("+p.getLocation().x()+","+p.getLocation().y()+")",(float) x-10,(float)y-10);
             }
 
 
@@ -257,7 +256,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
     }
 
     public void drawGraph(){
-
+        nodes = new ArrayList<NodeV>();
         Iterator iter = graph.nodeIter();
         while(iter.hasNext()){
             NodeV node = (NodeV) iter.next();
@@ -539,12 +538,18 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 int key = Integer.parseInt(fieldKey.getText());
                 this.algoGraph.getGraph().removeNode(key);
                 this.graph.removeNode(key);
-
                 drawGraph();
 
             }
 
 
+        }
+
+        else if (e.getSource() == size_nodes){
+            JOptionPane.showMessageDialog(null, "there are "+this.algoGraph.getGraph().nodeSize()+" nodes");
+        }
+        else if (e.getSource() == size_edges){
+            JOptionPane.showMessageDialog(null, "there are "+this.algoGraph.getGraph().edgeSize()+" edges");
         }
 
 

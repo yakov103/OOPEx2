@@ -81,7 +81,7 @@ public class Ex2 {
         algo.tsp(list).forEach((a)->{
             System.out.println( a.getKey());
         });
-     //  runGUI(json_file);
+      runGUI(json_file);
 
     }
 

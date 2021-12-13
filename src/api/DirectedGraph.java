@@ -224,6 +224,7 @@ public class DirectedGraph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         MC++;
+        NodeData removedNode;
         while(this.AllIconnectTo.get(key).size()!=0){
             Edge e= AllIconnectTo.get(key).get(0);
             this.EdgesHash.remove(e.getKey());
@@ -231,8 +232,10 @@ public class DirectedGraph implements DirectedWeightedGraph {
             this.IEdgesEdge.get(key).remove(e);
             e=null;
 
+
         }
-        return NodesHash.remove(key);
+        NodeData toRemove = NodesHash.remove(key);
+        return toRemove;
 
     }
 
