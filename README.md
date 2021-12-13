@@ -110,8 +110,10 @@ the Graph Editor captures the data in 2 HashMaps .
 * BFS
 
 <br />
-## test charts 
-<img width="747" alt="Screen Shot 2021-12-13 at 23 05 30" src="https://user-images.githubusercontent.com/66936716/145888891-2fd0493b-b56d-4cd1-a8b9-a08a80cf1801.png">
+
+###  test charts 
+
+<img width="798" alt="Screen Shot 2021-12-13 at 23 09 09" src="https://user-images.githubusercontent.com/66936716/145889227-8a421de9-23fd-4d93-84d6-c52a428200e0.png">
 
 
 ## GUI interface  
