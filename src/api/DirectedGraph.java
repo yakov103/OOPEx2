@@ -88,9 +88,11 @@ public class DirectedGraph implements DirectedWeightedGraph {
         if (n != null) {
             MC++;
             NodesHash.put(n.getKey(), n);
-            if (IEdges.size() <= n.getKey()) {
-                IEdges.add(new ArrayList<>());       //need to check if the id is ok,if we get order id
+            while(IEdges.size() <= n.getKey())
+                                             {
+                IEdges.add(new ArrayList<>());
                 IEdgesEdge.add(new ArrayList<>());
+                AllIconnectTo.add(new ArrayList<>());
             }
             if (!this.nodeList.contains(n.getKey()))
                 this.nodeList.add(n.getKey());
@@ -103,6 +105,7 @@ public class DirectedGraph implements DirectedWeightedGraph {
         if (!NodesHash.containsKey(src) || !NodesHash.containsKey(dest)) {
 
         } else {
+//            if (IEdgesEdge)
             Edge newEdge = new Edge(src, dest, w);
             String key = src + "_" + dest;
             EdgesHash.put(key, newEdge);
@@ -177,7 +180,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
                     throw new RuntimeException("the graph was update while the iterator was running");
                 if (lastEdge != null)
                     removeEdge(lastEdge.getSrc(),lastEdge.getDest());
-                Iterator.super.remove();
             }
         };
     }
@@ -215,7 +217,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
                     throw new RuntimeException("the graph was update while the iterator was running");
                 if (lastEdge != null)
                     removeEdge(lastEdge.getSrc(),lastEdge.getDest());
-                Iterator.super.remove();
             }
         };
     }
