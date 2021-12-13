@@ -110,15 +110,15 @@ the Graph Editor captures the data in 2 HashMaps .
 * BFS
 
 
-### GUI interface  
-<br />
+## GUI interface  
 
 using the Graphical User Interface (GUI) our program is displaying the graph to the user . by easy navigation using the menu bar ,represating the graph from the json file to the user and see algorithms resualts . 
+<br />
 
 
 <img width="1438" alt="Screen Shot 2021-12-13 at 18 59 21" src="https://user-images.githubusercontent.com/66936716/145862819-16d29709-28a6-4125-b53f-7e6cb6b24049.png">
 
-### UML 
+## UML 
 <br />
 
 ![UML-EX2](https://user-images.githubusercontent.com/66936716/145880967-042d582d-b70b-4f31-b35d-e6249628a0d2.png)
