@@ -31,16 +31,20 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public DirectedWeightedGraph copy() {
+        if (this.graph==null)
+            return null;
         DirectedGraph copyG=new DirectedGraph();
         Iterator<NodeData> nodeIter=this.graph.nodeIter();
         Iterator<EdgeData> edgeIter=this.graph.edgeIter();
         while(nodeIter.hasNext()){
             NodeV temp=new NodeV((NodeV)nodeIter.next());
             copyG.NodesHash.put(temp.id,temp);
+            copyG.Nodes.add(temp);
         }
         while(edgeIter.hasNext()){
             Edge temp=new Edge((Edge) edgeIter.next());
             copyG.EdgesHash.put(temp.getKey(),temp);
+            copyG.Edges.add(temp);
         }
         int size=this.graph.IEdges.size();
         for (int i=0;i<size;i++) {
@@ -49,7 +53,7 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
             ArrayList copyCurrentArray=copyG.IEdges.get(i);     // save i array list as pramter
             while(iterCurrent.hasNext()){
                 NodeV temp=(NodeV)iterCurrent.next();
-                copyCurrentArray.add(iterCurrent.next());
+                copyCurrentArray.add(temp);
             }
         }
         Iterator<NodeData> nodeIter2=this.graph.nodeIter();
@@ -57,7 +61,7 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
             copyG.nodeList.add(nodeIter2.next().getKey());
         }
 
-        return null;
+        return copyG;
 
     }
 
@@ -205,9 +209,15 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean save(String file) {
-
+        DirectedGraph graph=(DirectedGraph) this.copy();
         DirectedGraph.setGraphColor(null,graph);
         DirectedGraph.setprevious(graph);
+        graph.EdgesHash=null;
+        graph.NodesHash=null;
+        graph.MC=null;
+        graph.IEdges=null;
+        graph.IEdgesEdge=null;
+        graph.nodeList=null;
 
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         String jsonString=json.toJson(graph);

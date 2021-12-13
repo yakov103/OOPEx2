@@ -17,7 +17,7 @@ public class Edge implements EdgeData{
         this.src=e.src;
         this.dest=e.dest;
         this.info=e.info;
-        this.w=this.w;
+        this.w=e.w;
     }
 
     public String getKey(){

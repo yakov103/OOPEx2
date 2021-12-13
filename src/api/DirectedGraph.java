@@ -5,14 +5,16 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 public class DirectedGraph implements DirectedWeightedGraph {
-    public NodeV[] Nodes;
-    public Edge[] Edges;
-    public int MC;
+    public ArrayList<NodeV> Nodes;
+    public ArrayList<Edge> Edges;
+    public Integer MC;
     public ArrayList<ArrayList<NodeV>> IEdges;
     public ArrayList<ArrayList<Edge>> IEdgesEdge;
     public HashMap<Integer, NodeData> NodesHash;
     public HashMap<String, Edge> EdgesHash;
     public ArrayList<Integer> nodeList;
+    public ArrayList<ArrayList<Edge>> AllIconnectTo;
+
 
     public DirectedGraph(DirectedGraph G) {
         this.EdgesHash = new HashMap<>();
@@ -22,27 +24,31 @@ public class DirectedGraph implements DirectedWeightedGraph {
         MC = 0;
         this.nodeList = new ArrayList<>();
         this.IEdges = new ArrayList<>();
+        this.AllIconnectTo = new ArrayList<>();
         this.IEdgesEdge = new ArrayList<>();
-        for (int i = 0; i < G.Nodes.length; i++) {         //move the nodes,edges to the hashmap
-            Nodes[i].setInfo("white");
-            this.nodeList.add(G.Nodes[i].id);
-            this.addNode(Nodes[i]);
+        for (int i = 0; i < G.Nodes.size(); i++) {         //move the nodes,edges to the hashmap
+            Nodes.get(i).setInfo("white");
+            this.nodeList.add(G.Nodes.get(i).getKey());
+            this.addNode(Nodes.get(i));
         }
         for (int i = 0; i < NodesHash.size(); i++) {
             this.IEdges.add(new ArrayList<>());
             this.IEdgesEdge.add(new ArrayList<Edge>());
+            this.AllIconnectTo.add(new ArrayList<Edge>());
         }
-        for (int i = 0; i < this.Edges.length; i++) {
+        for (int i = 0; i < this.Edges.size(); i++) {
             //this.connect(G.Edges[i].getSrc(), G.Edges[i].getDest(), G.Edges[i].getWeight());
             //  this.IEdges.get(G.Edges[i].getSrc()).add((NodeV) G.getNode(G.Edges[i].getDest()));
-            int src= G.Edges[i].getSrc();
-            int dest=G.Edges[i].getDest();
-            double w=G.Edges[i].getWeight();
+            int src= G.Edges.get(i).getSrc();
+            int dest=G.Edges.get(i).getDest();
+            double w=G.Edges.get(i).getWeight();
             Edge newEdge = new Edge(src, dest, w);
             String key = src + "_" + dest;
             EdgesHash.put(key, newEdge);
             IEdges.get(src).add((NodeV) this.getNode(dest));
             IEdgesEdge.get(src).add(newEdge);
+            AllIconnectTo.get(src).add(newEdge);
+            AllIconnectTo.get(dest).add(newEdge);
         }
     }
 
@@ -53,6 +59,8 @@ public class DirectedGraph implements DirectedWeightedGraph {
         this.IEdges = new ArrayList<ArrayList<NodeV>>();
         this.IEdgesEdge = new ArrayList<ArrayList<Edge>>();
         this.nodeList = new ArrayList<Integer>();
+        this.Edges=new ArrayList<Edge>();
+        this.Nodes=new ArrayList<NodeV>();
 
 
     }
@@ -100,6 +108,8 @@ public class DirectedGraph implements DirectedWeightedGraph {
             EdgesHash.put(key, newEdge);
             IEdges.get(src).add((NodeV) this.getNode(dest));
             IEdgesEdge.get(src).add(newEdge);
+            AllIconnectTo.get(src).add(newEdge);
+            AllIconnectTo.get(dest).add(newEdge);
 
         }
     }
@@ -214,7 +224,16 @@ public class DirectedGraph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         MC++;
+        while(this.AllIconnectTo.get(key).size()!=0){
+            Edge e= AllIconnectTo.get(key).get(0);
+            this.EdgesHash.remove(e.getKey());
+            this.AllIconnectTo.get(key).remove(e);
+            this.IEdgesEdge.get(key).remove(e);
+            e=null;
+
+        }
         return NodesHash.remove(key);
+
     }
 
     @Override
@@ -246,13 +265,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
         return this.EdgesHash;
     }
 
-    public NodeV[] getArrNodes() {
-        return this.Nodes;
-    }
-
-    public Edge[] getArrEdges() {
-        return this.Edges;
-    }
 
     public static DirectedGraph reverseGraph(DirectedGraph G) {
         DirectedGraph Rg = new DirectedGraph();

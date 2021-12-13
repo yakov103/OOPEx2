@@ -51,14 +51,15 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    String json_file= "C:\\Users\\HP\\IdeaProjects\\OOPEx2\\120.json";
+    String json_file= "data/G3.json";
 //        DirectedGraph g1=(DirectedGraph) getGrapg(json_file);
 //        g1.nodeIter().next();
 //        g1.getMC();
       //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
         DirectedWeightedGraphAlgorithms algo =new graphAlgo() ;
         algo.load(json_file);
-        System.out.println("load");
+//        algo.save("123.json");
+       // System.out.println("load");
      //   runGUI(json_file);
 //        boolean  flag= algo.isConnected();
 //        System.out.println(algo.isConnected());
@@ -73,9 +74,9 @@ public class Ex2 {
 //        System.out.println(algo.center());
         //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
         List<NodeData> list=new ArrayList();
-        list.add(algo.getGraph().getNode(3));
+        list.add(algo.getGraph().getNode(37));
         list.add(algo.getGraph().getNode(4));
-        list.add(algo.getGraph().getNode(14));
+        list.add(algo.getGraph().getNode(47));
         //list.add(algo.getGraph().getNode(7));
         algo.tsp(list).forEach((a)->{
             System.out.println( a.getKey());
