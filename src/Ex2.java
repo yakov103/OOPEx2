@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -51,8 +52,13 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    String json_file= args[0];
-    runGUI(json_file);
+   // String json_file= args[0];
+    //runGUI(json_file);
+//        String s="data\\G1.json";
+//        graphAlgo algo=new graphAlgo();
+//        algo.load(s);
+
+
 
 
     }
