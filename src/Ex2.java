@@ -60,7 +60,7 @@ public class Ex2 {
         algo.load(json_file);
 //        algo.save("123.json");
        // System.out.println("load");
-     //   runGUI(json_file);
+          runGUI(json_file);
 //        boolean  flag= algo.isConnected();
 //        System.out.println(algo.isConnected());
 //        System.out.println("///////////////////////");

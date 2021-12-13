@@ -310,6 +310,7 @@ public class DirectedGraph implements DirectedWeightedGraph {
         while(iterator.hasNext()){
             NodeV nodeV=(NodeV) iterator.next();
             nodeV.previous=null;
+            nodeV.setInfo(null);
         }
     }
 
