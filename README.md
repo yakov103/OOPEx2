@@ -16,17 +16,19 @@ you can navigate the menu bar to :
 * Algorithms - get information on your graph by using system Algorithms. 
 
 <br />
-<br />
 
 ## about code 
 
 ### data structure 
+<br />
+
 the Graph Editor captures the data in 2 HashMaps . 
 * Hash for the nodes  - implementing editing nodes by their id in O(1)
 * Hash for the edges  - implementing editing edges by taking the sourse and destantion of the edge, and convert it to 1 string (```src_dest```) key that gives us the edge on O(1)
 
 
 ### implemented classes 
+<br />
 
 * **NodeV** - implementing NodeData of graph. 
 * **Edge** - implementing EdgesData of graph. 
@@ -35,6 +37,7 @@ the Graph Editor captures the data in 2 HashMaps .
 * **algoGraph** - implementing DirectedWightedGraphAlgorithms by loading DirectedGraph and run algorithms to run the functions. 
 
 ### Algorithms functions 
+<br />
 
 * IsConnected - This algorithm check if the graph is Connected graph or not.
                 To check we use BFS algorithm on the graph and another BFS on the reverse graph.
@@ -107,6 +110,7 @@ the Graph Editor captures the data in 2 HashMaps .
 
 
 ### GUI interface  
+<br />
 
 using the Graphical User Interface (GUI) our program is displaying the graph to the user . by easy navigation using the menu bar ,represating the graph from the json file to the user and see algorithms resualts . 
 
@@ -114,6 +118,7 @@ using the Graphical User Interface (GUI) our program is displaying the graph to 
 <img width="1438" alt="Screen Shot 2021-12-13 at 18 59 21" src="https://user-images.githubusercontent.com/66936716/145862819-16d29709-28a6-4125-b53f-7e6cb6b24049.png">
 
 ### UML 
+<br />
 
 ![UML-EX2](https://user-images.githubusercontent.com/66936716/145880967-042d582d-b70b-4f31-b35d-e6249628a0d2.png)
 
