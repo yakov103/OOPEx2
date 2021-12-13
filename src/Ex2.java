@@ -73,15 +73,14 @@ public class Ex2 {
 //        System.out.println("///////////////////////");
 //        System.out.println(algo.center());
         //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
-        List<NodeData> list=new ArrayList();
-        list.add(algo.getGraph().getNode(37));
-        list.add(algo.getGraph().getNode(4));
-        list.add(algo.getGraph().getNode(47));
+//        List<NodeData> list=new ArrayList();
+//        list.add(algo.getGraph().getNode(37));
+//        list.add(algo.getGraph().getNode(4));
+//        list.add(algo.getGraph().getNode(47));
         //list.add(algo.getGraph().getNode(7));
-        algo.tsp(list).forEach((a)->{
-            System.out.println( a.getKey());
-        });
-      runGUI(json_file);
+//        algo.tsp(list).forEach((a)->{
+//            System.out.println( a.getKey());
+//        });
 
     }
 
