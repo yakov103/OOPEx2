@@ -1,5 +1,5 @@
 
-# The Graph Editor 🗺️
+# The Graph Editor 🗺️ Ex2 - OOP 
 #### made by Yakov Khodorkovski and Daniel Zaken 
 ##### The Graph Editor is a graphical representation of directed graph  . The Graph Editor lets you edit your graph , run algrothems and get information .
 
@@ -110,6 +110,9 @@ the Graph Editor captures the data in 2 HashMaps .
 * BFS
 
 <br />
+## test charts 
+<img width="747" alt="Screen Shot 2021-12-13 at 23 05 30" src="https://user-images.githubusercontent.com/66936716/145888891-2fd0493b-b56d-4cd1-a8b9-a08a80cf1801.png">
+
 
 ## GUI interface  
 
@@ -123,5 +126,6 @@ using the Graphical User Interface (GUI) our program is displaying the graph to 
 <br />
 
 ![UML-EX2](https://user-images.githubusercontent.com/66936716/145880967-042d582d-b70b-4f31-b35d-e6249628a0d2.png)
+
 
 
