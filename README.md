@@ -115,7 +115,7 @@ the Graph Editor captures the data in 2 HashMaps .
 
 <img width="798" alt="Screen Shot 2021-12-13 at 23 09 09" src="https://user-images.githubusercontent.com/66936716/145889227-8a421de9-23fd-4d93-84d6-c52a428200e0.png">
 
-note : the 100000nodes.json (140 mb)  is not included in the project because of the limit of github to 100 mb files. 
+note : the 100000nodes and 10000000nodes (140 mb)  is not included in the project because of the limit of github to 100 mb files. 
 
 ## GUI interface  
 
