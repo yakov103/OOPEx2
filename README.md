@@ -24,5 +24,21 @@ the Graph Editor captures the data in 2 HashMaps .
 * **NodeV** - implementing NodeData of graph. 
 * **Edge** - implementing EdgesData of graph. 
 * **Location** - implementing GeoLocation of graph. 
-* **DirectedGraph**  - implementing DirectedWightedGraph using the HashMaps of the edges and nodes . 
-* **algoGraph** 
+* **DirectedGraph**  - implementing DirectedWightedGraph using the HashMaps of the edges and nodes , and iterator implementation to iter the nodes and edges . 
+* **algoGraph** - implementing DirectedWightedGraphAlgorithms by loading DirectedGraph and run algorithms to run the functions. 
+
+### Algorithms functions 
+* IsConnected -
+* 
+* 
+* 
+*
+*
+
+### GUI interface  
+using the Graphical User Interface (GUI) our program is displaying the graph to the user . by easy navigation using the menu bar ,represating the graph from the json file to the user and see algorithms resualts . 
+
+
+***photowill be added *** 
+
+### UML 
