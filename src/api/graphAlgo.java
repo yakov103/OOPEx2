@@ -172,41 +172,57 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
+
         DirectedGraph graph=this.graph;
+        List<NodeData>mainList=new ArrayList<>();
+        mainList.add(cities.get(0));
         ArrayList<Integer>idCities=new ArrayList<>();        //array for the cities id
         for (int j=0;j<cities.size();j++)
             idCities.add(cities.get(j).getKey());
-        DirectedGraph.setGraphColor("white",graph);    //set graph to white
 
-        List<NodeData>l=new ArrayList();
-        l.add(cities.remove(0));
-        idCities.remove((Integer)0);
+        int currentStart=idCities.get(0);
+        idCities.remove(0);
+        while (idCities.size()!=0) {                        // until pass in all the cities
 
-        while(idCities.size()!=0) {                            // until pass on all the nodes
-
-            Iterator<EdgeData> iterCurrent = graph.edgeIter(l.get(l.size()-1).getKey());  //iterator of the last in my list
-            double minW = Integer.MAX_VALUE;
-            NodeData NodeWithMinW = null;
-            while (iterCurrent.hasNext()) {
-                EdgeData etemp = iterCurrent.next();
-                NodeData destNode = graph.NodesHash.get(etemp.getDest());
-                if (idCities.contains(destNode.getKey())&&etemp.getWeight() < minW && destNode.getInfo() != "gray") {        // take the Node with min w to get him
-                    NodeWithMinW = destNode;
-                    // minW=etemp.getWeight();                     // without this is better
-                }
+            List<NodeData> templest = shortestPath(currentStart, idCities.get(0));
+            currentStart=idCities.get(0);
+            for (int i = 0; i < templest.size(); i++) {
+                idCities.contains(templest.get(i).getKey());
+                idCities.remove((Integer) templest.get(i).getKey());
             }
-            if (NodeWithMinW == null) {                                         //if all already gray or not in cities so take the first node
-                l.add(new NodeV(graph.IEdges.get(idCities.get(idCities.size()-1)).get((int)(Math.random()*graph.IEdges.get(idCities.get(idCities.size()-1)).size()))));
-                l.get(l.size()-1).setInfo("gray");
-            } else {
-                idCities.remove((Integer)NodeWithMinW.getKey());
-                l.add(NodeWithMinW);
-                NodeWithMinW.setInfo("gray");
+            for (int i=1;i<templest.size();i++){
+                mainList.add(templest.get(i));
             }
+
         }
-        return l;
+        return mainList;
     }
 
+    public List<NodeData> tsp2(List<NodeData> cities){
+        DirectedGraph graph=this.graph;
+        List<NodeData>mainList=new ArrayList<>();
+        mainList.add(cities.get(0));
+        ArrayList<Integer>idCities=new ArrayList<>();        //array for the cities id
+        for (int j=0;j<cities.size();j++)
+            idCities.add(cities.get(j).getKey());
+
+        int currentStart=idCities.get(0);
+        idCities.remove(0);
+        while (idCities.size()!=0) {                        // until pass in all the cities
+
+            List<NodeData> templest = shortestPath(currentStart, idCities.get(0));
+            currentStart=idCities.get(0);
+            for (int i = 0; i < templest.size(); i++) {
+                idCities.contains(templest.get(i).getKey());
+                idCities.remove((Integer) templest.get(i).getKey());
+            }
+        for (int i=1;i<templest.size();i++){
+            mainList.add(templest.get(i));
+        }
+
+        }
+        return mainList;
+    }
     @Override
     public boolean save(String file) {
         DirectedGraph graph=(DirectedGraph) this.copy();

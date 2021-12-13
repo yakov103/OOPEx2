@@ -77,11 +77,12 @@ public class Ex2 {
         list.add(algo.getGraph().getNode(37));
         list.add(algo.getGraph().getNode(4));
         list.add(algo.getGraph().getNode(47));
-        //list.add(algo.getGraph().getNode(7));
-        algo.tsp(list).forEach((a)->{
+        list.add(algo.getGraph().getNode(7));
+        list.add(algo.getGraph().getNode(1));
+
+        algo.tsp (list).forEach((a)->{
             System.out.println( a.getKey());
         });
-      runGUI(json_file);
 
     }
 

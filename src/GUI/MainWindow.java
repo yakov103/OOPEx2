@@ -237,7 +237,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 g2.setColor(color);
                 g2.fill(ellipse);
                 g2.draw(ellipse);
-                g2.drawString("("+p.getLocation().x()+","+p.getLocation().y()+")",(float) x-10,(float)y-10);
+                g2.drawString("("+String.format("%.3f", p.getLocation().x())+","+String.format("%.3f", p.getLocation().y())+")",(float) x-30,(float)y-15);
             }
 
 
