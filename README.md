@@ -109,6 +109,7 @@ the Graph Editor captures the data in 2 HashMaps .
 * load
 * BFS
 
+<br />
 
 ## GUI interface  
 
