@@ -16,7 +16,9 @@ you can navigate the menu bar to :
 * Algorithms - get information on your graph by using system Algorithms. 
 
 
+
 ## about code 
+
 ### data structure 
 the Graph Editor captures the data in 2 HashMaps . 
 * Hash for the nodes  - implementing editing nodes by their id in O(1)
@@ -48,6 +50,7 @@ the Graph Editor captures the data in 2 HashMaps .
 
 
 ## classes functions
+
 
 (functions of the interfaces that not shows here is functions we didnt use because they was not relvant for this assignment or we didnt need to use them for our graph and they do nothing when using them.)
 ### Edge (implements EdgeData interface) class functions
