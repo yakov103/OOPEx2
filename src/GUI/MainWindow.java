@@ -22,7 +22,6 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
     boolean needToChoose;
     JPanel panel;
     JFrame popUP;
-    popMSG newPOP;
     AffineTransform tx = new AffineTransform();
     Line2D.Double line = new Line2D.Double(0,0,100,100);
     Polygon arrowHead = new Polygon();
@@ -342,6 +341,8 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 algoGraph.load(location_file);
                 graph= algoGraph.getGraph();
                 nodes = new ArrayList<>();
+                this.index_of_shortest = new ArrayList<>();
+                JOptionPane.showMessageDialog(null, "the chosen graph is : " + selectedFile.getAbsolutePath());
                 drawGraph();
             }
 
@@ -498,9 +499,10 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 index_of_shortest =new ArrayList<>();
                 index_of_shortest.add(srcEdge);
                 index_of_shortest.add(destEdge);
+                JOptionPane.showMessageDialog(null,"the weight of the edge is "+this.algoGraph.getGraph().getEdge(srcEdge,destEdge).getWeight()+" from "+srcEdge+ " to "+ destEdge );
                 drawGraph();
 
-                JOptionPane.showMessageDialog(null,"the weight of the edge is "+this.algoGraph.getGraph().getEdge(srcEdge,destEdge).getWeight() );
+
 
             }
 
@@ -527,6 +529,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             double weightEdge = Double.valueOf(fieldWeight.getText());
             this.graph.connect(srcEdge,destEdge,weightEdge);
             this.algoGraph.getGraph().connect(srcEdge,destEdge,weightEdge);
+            JOptionPane.showMessageDialog(null,"edge added ! ");
             drawGraph();
 
         }
@@ -548,6 +551,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                     this.algoGraph.getGraph().removeEdge(src,dest);
                     this.graph.removeEdge(src,dest);
                     index_of_shortest = new ArrayList<>();
+                    JOptionPane.showMessageDialog(null, "Edge removed ! ");
                     drawGraph();
             }
             }
@@ -562,6 +566,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 int key = Integer.parseInt(fieldKey.getText());
                 this.algoGraph.getGraph().removeNode(key);
                 this.graph.removeNode(key);
+                JOptionPane.showMessageDialog(null, "Node removed ! ");
                 drawGraph();
 
             }
@@ -653,6 +658,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             NodeV newNodeAdd = new NodeV(choosen_key,x+","+y+",0.0");
             algoGraph.getGraph().addNode((NodeData) newNodeAdd);
             graph = algoGraph.getGraph();
+            JOptionPane.showMessageDialog(null,"the node "+choosen_key+" added successfully ");
             drawGraph();
             this.removeMouseListener(this);
 

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,42 +51,9 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-    String json_file= "data/G3.json";
-//        DirectedGraph g1=(DirectedGraph) getGrapg(json_file);
-//        g1.nodeIter().next();
-//        g1.getMC();
-      //   String json_file= "/Users/yakovkhodorkovski/IdeaProjects/OOP-Ex2/data/G3.json";
-        DirectedWeightedGraphAlgorithms algo =new graphAlgo() ;
-        algo.load(json_file);
-//        algo.save("123.json");
-       // System.out.println("load");
-        //  runGUI(json_file);
-//        boolean  flag= algo.isConnected();
-//        System.out.println(algo.isConnected());
-//        System.out.println("///////////////////////");
-//        System.out.println((algo.shortestPathDist(220,235)));
-//        System.out.println((algo.shortestPathDist(11,19)));
-//        System.out.println("///////////////////////");
-//        algo.shortestPath(20,14).forEach((a)->{
-//            System.out.println( a.getKey());
-//        });
-//        System.out.println("///////////////////////");
-//        System.out.println(algo.center());
-        //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
-       Iterator<NodeData>iterator= algo.getGraph().nodeIter();
-       iterator.next();
-       iterator.remove();
-        int a;
-//        List<NodeData> list=new ArrayList();
-//        list.add(algo.getGraph().getNode(37));
-//        list.add(algo.getGraph().getNode(4));
-//        list.add(algo.getGraph().getNode(47));
-//        list.add(algo.getGraph().getNode(7));
-//        list.add(algo.getGraph().getNode(1));
-//
-//        algo.tsp (list).forEach((a)->{
-//            System.out.println( a.getKey());
-//        });
+    String json_file= args[0];
+    runGUI(json_file);
+
 
     }
 

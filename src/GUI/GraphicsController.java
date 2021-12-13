@@ -16,6 +16,7 @@ public class GraphicsController {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dimension.height;
         int width = dimension.width;
+
         frame = new MainWindow(width,height, directedGraph);
         ImageIcon icon = new ImageIcon("node.png");
         frame.setIconImage(icon.getImage());
