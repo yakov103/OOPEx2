@@ -99,4 +99,4 @@ using the Graphical User Interface (GUI) our program is displaying the graph to 
 ![alt text](https://i.ibb.co/jkqRjVn/Screen-Shot-2021-12-13-at-18-59-21.png)
 
 ### UML 
-![alt text](https://i.ibb.co/wpn7Ly3/UML-EX2.png)
+<img width="1438" alt="Screen Shot 2021-12-13 at 18 59 21" src="https://user-images.githubusercontent.com/66936716/145862819-16d29709-28a6-4125-b53f-7e6cb6b24049.png">
