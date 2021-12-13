@@ -460,6 +460,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             JTextField xField = new JTextField(5);
             myPanel.add(new JLabel("please choose new key num for :"));
             myPanel.add(xField);
+            myPanel.add(new JLabel("than click on the graph where do you want to add the node "));
             int result = JOptionPane.showConfirmDialog(null, myPanel, "Get Node", JOptionPane.OK_CANCEL_OPTION);
 
             if (result == JOptionPane.OK_OPTION) {
@@ -530,9 +531,10 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
             this.graph.connect(srcEdge,destEdge,weightEdge);
             this.algoGraph.getGraph().connect(srcEdge,destEdge,weightEdge);
             JOptionPane.showMessageDialog(null,"edge added ! ");
-            drawGraph();
+
 
         }
+            drawGraph();
         }
 
         else if (e.getSource() == remove_edge){
