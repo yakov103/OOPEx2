@@ -20,24 +20,24 @@ you can navigate the menu bar to :
 ## about code 
 
 ### data structure 
-<br />
 
 the Graph Editor captures the data in 2 HashMaps . 
 * Hash for the nodes  - implementing editing nodes by their id in O(1)
 * Hash for the edges  - implementing editing edges by taking the sourse and destantion of the edge, and convert it to 1 string (```src_dest```) key that gives us the edge on O(1)
+<br />
 
 
 ### implemented classes 
-<br />
 
 * **NodeV** - implementing NodeData of graph. 
 * **Edge** - implementing EdgesData of graph. 
 * **Location** - implementing GeoLocation of graph. 
 * **DirectedGraph**  - implementing DirectedWightedGraph using the HashMaps of the edges and nodes , and iterator implementation to iter the nodes and edges . 
 * **algoGraph** - implementing DirectedWightedGraphAlgorithms by loading DirectedGraph and run algorithms to run the functions. 
+<br />
+
 
 ### Algorithms functions 
-<br />
 
 * IsConnected - This algorithm check if the graph is Connected graph or not.
                 To check we use BFS algorithm on the graph and another BFS on the reverse graph.
@@ -51,6 +51,7 @@ the Graph Editor captures the data in 2 HashMaps .
  
 * tsp - This function get list of nodes(vertex) and return list of nodes that present the path that pass in the nodes that we get,also the function return "good" path and not path that pass to mach vertex and visit vertex that not necessaries .We use shortestPathDist function to find the best path from node to node.
 * BFS - This function get graph and color and set the color of the nodes that in the component of the first id in our list.We build this function to check if the graph is connected.  
+<br />
 
 
 ## classes functions
