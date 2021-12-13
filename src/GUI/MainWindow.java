@@ -184,8 +184,9 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
         g2.setColor(color);
         Iterator iter = graph.edgeIter();
         HashMap<String,Integer> alreadyWay= new HashMap<String,Integer>();
+        boolean isFromPath= false;
         while (iter.hasNext()) {
-            boolean isFromPath= false;
+
             color = Color.BLUE;
             g2.setColor(color);
             Edge edge = (Edge) iter.next();
@@ -197,9 +198,6 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                     g2.setColor(Color.red);
                     isFromPath = true;
                 }
-
-
-
             }
             double x1 =incrementX +(srcNode.getLocation().x()-minX)*factorX ;
             double y1 =incrementY+ (srcNode.getLocation().y()-minY)*factorY ;
@@ -209,17 +207,31 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 if (!isFromPath) g2.setColor(new Color(0x045D04));
                 y1 = y1 - 5;
                 y2 = y2 - 5;
+            }else {
+                y1 = y1+ 5;
+                y2 = y2 + 5;
+            }
+            drawArrow(g, (int)x1, (int)y1-5 , (int)x2, (int)y2-5);
 
-
+        }
+        color = Color.red;
+        g2.setColor(color);
+        for (int i =0 ; i < index_of_shortest.size()-1 ; i++){
+            NodeData srcNode = this.graph.getNode(index_of_shortest.get(i));
+            NodeData destNode = this.graph.getNode(index_of_shortest.get(i+1));
+            double x1 =incrementX +(srcNode.getLocation().x()-minX)*factorX ;
+            double y1 =incrementY+ (srcNode.getLocation().y()-minY)*factorY ;
+            double x2 = incrementX+ (destNode.getLocation().x()-minX)*factorX ;
+            double y2 = incrementY+ (destNode.getLocation().y()-minY)*factorY ;
+            if (x1 > x2){
+                y1 = y1 - 5;
+                y2 = y2 - 5;
             }else {
                 y1 = y1+ 5;
                 y2 = y2 + 5;
             }
 
-
-
             drawArrow(g, (int)x1, (int)y1-5 , (int)x2, (int)y2-5);
-
         }
 
 
@@ -407,6 +419,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                     for ( int i =0 ; i < listToAdd.size() ; i ++){
                         System.out.println(listToAdd.get(i).getKey());
                     }
+                    index_of_shortest = new ArrayList<>();
 
                     index_of_shortest = listToAdd.stream().map(x -> x.getKey()).collect(Collectors.toList());
                     JOptionPane.showMessageDialog(null, "the tsp is : "+index_of_shortest.toString());
