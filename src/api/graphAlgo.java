@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.List;
 
 public class graphAlgo implements DirectedWeightedGraphAlgorithms{
-    DirectedGraph graph ;
+    private DirectedGraph graph ;
 
     public graphAlgo(){
     }
@@ -198,31 +198,6 @@ public class graphAlgo implements DirectedWeightedGraphAlgorithms{
         return mainList;
     }
 
-    public List<NodeData> tsp2(List<NodeData> cities){
-        DirectedGraph graph=this.graph;
-        List<NodeData>mainList=new ArrayList<>();
-        mainList.add(cities.get(0));
-        ArrayList<Integer>idCities=new ArrayList<>();        //array for the cities id
-        for (int j=0;j<cities.size();j++)
-            idCities.add(cities.get(j).getKey());
-
-        int currentStart=idCities.get(0);
-        idCities.remove(0);
-        while (idCities.size()!=0) {                        // until pass in all the cities
-
-            List<NodeData> templest = shortestPath(currentStart, idCities.get(0));
-            currentStart=idCities.get(0);
-            for (int i = 0; i < templest.size(); i++) {
-                idCities.contains(templest.get(i).getKey());
-                idCities.remove((Integer) templest.get(i).getKey());
-            }
-        for (int i=1;i<templest.size();i++){
-            mainList.add(templest.get(i));
-        }
-
-        }
-        return mainList;
-    }
     @Override
     public boolean save(String file) {
         DirectedGraph graph=(DirectedGraph) this.copy();

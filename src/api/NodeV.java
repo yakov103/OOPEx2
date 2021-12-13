@@ -22,17 +22,6 @@ public class NodeV implements NodeData {
     }
 
     @Override
-    public String toString() {
-        return "NodeV{" +
-                "pos='" + pos + '\'' +
-                ", id=" + id +
-                ", info='" + info + '\'' +
-                ", previous=" + previous +
-                ", length=" + length +
-                '}';
-    }
-
-    @Override
     public int getKey() {
         return this.id;
     }

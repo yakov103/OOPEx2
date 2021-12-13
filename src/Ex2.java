@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -60,7 +61,7 @@ public class Ex2 {
         algo.load(json_file);
 //        algo.save("123.json");
        // System.out.println("load");
-          runGUI(json_file);
+        //  runGUI(json_file);
 //        boolean  flag= algo.isConnected();
 //        System.out.println(algo.isConnected());
 //        System.out.println("///////////////////////");
@@ -73,16 +74,20 @@ public class Ex2 {
 //        System.out.println("///////////////////////");
 //        System.out.println(algo.center());
         //  GraphicsController controller = new GraphicsController((DirectedWeightedGraphAlgorithms)g);
-        List<NodeData> list=new ArrayList();
-        list.add(algo.getGraph().getNode(37));
-        list.add(algo.getGraph().getNode(4));
-        list.add(algo.getGraph().getNode(47));
-        list.add(algo.getGraph().getNode(7));
-        list.add(algo.getGraph().getNode(1));
-
-        algo.tsp (list).forEach((a)->{
-            System.out.println( a.getKey());
-        });
+       Iterator<NodeData>iterator= algo.getGraph().nodeIter();
+       iterator.next();
+       iterator.remove();
+        int a;
+//        List<NodeData> list=new ArrayList();
+//        list.add(algo.getGraph().getNode(37));
+//        list.add(algo.getGraph().getNode(4));
+//        list.add(algo.getGraph().getNode(47));
+//        list.add(algo.getGraph().getNode(7));
+//        list.add(algo.getGraph().getNode(1));
+//
+//        algo.tsp (list).forEach((a)->{
+//            System.out.println( a.getKey());
+//        });
 
     }
 

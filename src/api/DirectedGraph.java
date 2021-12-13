@@ -116,7 +116,7 @@ public class DirectedGraph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<NodeData> nodeIter() {
-        //return this.NodesHash.values().iterator();
+
         return new Iterator<NodeData>() {
 
             Iterator<NodeData> iterator = NodesHash.values().iterator();
@@ -144,7 +144,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
                     throw new RuntimeException("the graph was update while the iterator was running");
                 if (lastNode != null)
                     removeNode(lastNode.getKey());
-                Iterator.super.remove();
             }
         };
 
@@ -260,13 +259,6 @@ public class DirectedGraph implements DirectedWeightedGraph {
         return MC;
     }
 
-    public HashMap<Integer, NodeData> getHashNode() {
-        return this.NodesHash;
-    }
-
-    public HashMap<String, Edge> getHashEdge() {
-        return this.EdgesHash;
-    }
 
 
     public static DirectedGraph reverseGraph(DirectedGraph G) {
