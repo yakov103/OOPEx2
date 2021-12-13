@@ -3,6 +3,7 @@
 #### made by Yakov Khodorkovski and Daniel Zaken 
 ##### The Graph Editor is a graphical representation of directed graph  . The Graph Editor lets you edit your graph , run algrothems and get information .
 
+![image](https://user-images.githubusercontent.com/66936716/145890058-04cd8980-f8b7-4286-b26c-0a70936e66cd.png)
 ## how to run 
 1. Download the Ex2.jar file and json file of your graph that you want to load . 
 2. open terminal at downloded folder . 
