@@ -228,7 +228,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
                 double x = (p.getLocation().x() - minX) * factorX + incrementX;
                 double y = (p.getLocation().y() - minY) * factorY + incrementY;
-                Ellipse2D.Double ellipse = new Ellipse2D.Double(x-5 , y-5 ,10, 10);
+                Ellipse2D.Double ellipse = new Ellipse2D.Double(x-5 , y-5 ,25, 25);
                 color = Color.BLACK;
                 if (index_of_shortest.contains(p.getKey())){
                     color = Color.red;
@@ -237,6 +237,15 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                 g2.setColor(color);
                 g2.fill(ellipse);
                 g2.draw(ellipse);
+                color = Color.white;
+                g2.setColor(color);
+                g2.drawString(p.getKey()+"",(float) x,(float)y+13);
+                if (index_of_shortest.contains(p.getKey())){
+                    color = Color.red;
+                }else {
+                    color = Color.BLACK;
+                }
+                g2.setColor(color);
                 g2.drawString("("+String.format("%.3f", p.getLocation().x())+","+String.format("%.3f", p.getLocation().y())+")",(float) x-30,(float)y-15);
             }
 
@@ -270,7 +279,6 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
         scaleX = Math.abs(maxX-minX);
         scaleY = Math.abs(maxY-minY);
         repaint();
-        setSize(width,height);
         setLayout(null);
         setVisible(true);
     }
@@ -366,8 +374,9 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
          int centerNodeKey=  algoGraph.center().getKey();
          index_of_shortest =new ArrayList<>();
          index_of_shortest.add(centerNodeKey);
-         drawGraph();
          JOptionPane.showMessageDialog(null,"the center node is : "+ centerNodeKey);
+         drawGraph();
+
 
         }
         else if (e.getSource() == this.tsp ){
@@ -400,6 +409,7 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                     }
 
                     index_of_shortest = listToAdd.stream().map(x -> x.getKey()).collect(Collectors.toList());
+                    JOptionPane.showMessageDialog(null, "the tsp is : "+index_of_shortest.toString());
                     drawGraph();
 
 
@@ -422,8 +432,9 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
                int keynode = Integer.parseInt(xField.getText());
                 index_of_shortest =new ArrayList<>();
                 index_of_shortest.add(keynode);
-                drawGraph();
                 JOptionPane.showMessageDialog(null,"the postion of youre node is ("+graph.getNode(keynode).getLocation().x()+","+graph.getNode(keynode).getLocation().y()+")");
+                drawGraph();
+
             }
 
 
@@ -595,8 +606,9 @@ public class MainWindow extends JFrame implements ActionListener, MouseListener 
 
             List<NodeData> nodes = algoGraph.shortestPath(src,dest);
             index_of_shortest = nodes.stream().map(x -> x.getKey()).collect(Collectors.toList());
-            drawGraph();
             JOptionPane.showMessageDialog(this,"The distance is " + distance);
+            drawGraph();
+
 
         }
     }
