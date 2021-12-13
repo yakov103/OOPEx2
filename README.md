@@ -15,8 +15,9 @@ you can navigate the menu bar to :
 * Nodes and Edges - edit your graph by removing or adding. 
 * Algorithms - get information on your graph by using system Algorithms. 
 
-
-
+<br />
+<br />
+<br />
 ## about code 
 
 ### data structure 
