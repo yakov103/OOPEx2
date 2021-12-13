@@ -28,17 +28,75 @@ the Graph Editor captures the data in 2 HashMaps .
 * **algoGraph** - implementing DirectedWightedGraphAlgorithms by loading DirectedGraph and run algorithms to run the functions. 
 
 ### Algorithms functions 
-* IsConnected -
-* 
-* 
-* 
-*
-*
+* IsConnected - This algorithm check if the graph is Connected graph or not.
+                To check we use BFS algorithm on the graph and another BFS on the reverse graph.
+* shortestPathDist- This functions get src and dest Id and return the length of the shortest path. We use dijkstra algorithm to find this path.
+ 
+* shortestPath - This function get src and dest Id and return NodeData list of all the NodeData(vertex) that in the shortest path in the same order as they show up in the path. 
+* center - This functions return the NodeData(vertex) that in the center of the graph (relative to the rest of the vertices).In this function we use the dijkstra algorithm to caculte the length from node to the other nodes and this help us to find the center node(vertex).
+ 
+* tsp - This function get list of nodes(vertex) and return list of nodes that present the path that pass in the nodes that we get,also the function return "good" path and not path that pass to mach vertex and visit vertex that not necessaries .We use shortestPathDist function to find the best path from node to node.
+* BFS - This function get graph and color and set the color of the nodes that in the component of the first id in our list.We build this function to check if the graph is connected.  
+
+## classes functions
+(functions of the interfaces that not shows here is functions we didnt use because they was not relvant for this assignment or we didnt need to use them for our graph and they do nothing when using them.)
+### Edge (implements EdgeData interface) class functions
+* getKey
+* getSrc
+* getWeight
+* getInfo
+* setInfo
+
+### NodeV (implements NodeData interface) class functions
+* getKey
+* getLocation
+* setLocation
+* getInfo
+* setInfo
+
+### Location (implements GeoLocation interface) class functions
+* x
+* y
+* z
+* distance
+
+### DirectedGraph (implements DirectedWeightedGraph interface) class functions
+* getNode
+* getEdge
+* addNode
+* connect
+* nodeIter()
+* edgeIter()
+* nodeIter(int node_id)
+* edgeIter(int node_id)
+* removeEdge
+* nodeSize
+* edgeSize
+* getMC
+* reverseGraph
+* checkIfAllTheSameColor
+* setGraphColor
+* setprevious
+
+### graphAlgo (implements DirectedWeightedGraphAlgorithms) class functions 
+* init
+* getGraph
+* copy
+* isConnected
+* shortestPathDist
+* shortestPath
+* center
+* tsp
+* save
+* load
+* BFS
+
 
 ### GUI interface  
 using the Graphical User Interface (GUI) our program is displaying the graph to the user . by easy navigation using the menu bar ,represating the graph from the json file to the user and see algorithms resualts . 
 
 
-***photowill be added *** 
+![alt text](https://i.ibb.co/jkqRjVn/Screen-Shot-2021-12-13-at-18-59-21.png)
 
 ### UML 
+<img width="1438" alt="Screen Shot 2021-12-13 at 18 59 21" src="https://user-images.githubusercontent.com/66936716/145862819-16d29709-28a6-4125-b53f-7e6cb6b24049.png">
